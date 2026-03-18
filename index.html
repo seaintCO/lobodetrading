@@ -1,0 +1,1225 @@
+<html lang="es" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobo Del Trading | Aprende a dominar los mercados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        fintech: {
+                            dark: '#0a0e17',
+                            card: 'rgba(255, 255, 255, 0.03)',
+                            border: 'rgba(255, 255, 255, 0.08)',
+                            accent: '#00f0ff',
+                            success: '#10b981',
+                            danger: '#ef4444',
+                            gold: '#fbbf24'
+                        }
+                    },
+                    animation: {
+                        'grid-flow': 'gridFlow 20s linear infinite',
+                        'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        gridFlow: {
+                            '0%': { transform: 'translateY(0)' },
+                            '100%': { transform: 'translateY(50px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.5' },
+                            '50%': { opacity: '0.8' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0e17;
+            color: #f8fafc;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0e17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* Animated Grid Background */
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+
+        .glow-border:hover {
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+            border-color: rgba(0, 240, 255, 0.4);
+        }
+
+        /* Hide elements completely when using hidden class */
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="antialiased font-sans overflow-x-hidden relative selection:bg-fintech-accent selection:text-black">
+
+    <!-- Ticker Tape -->
+    <div class="w-full h-10 bg-slate-950 border-b border-white/10 z-50 relative overflow-hidden">
+        <div class="tradingview-widget-container">
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async="">
+            {
+            "symbols": [
+                {"proName": "FOREXCOM:SPXUSD", "title": "S&P 500"},
+                {"proName": "NASDAQ:QQQ", "title": "NASDAQ"},
+                {"proName": "AMEX:SPY", "title": "SPY"},
+                {"proName": "NASDAQ:AAPL", "title": "Apple"},
+                {"proName": "NASDAQ:TSLA", "title": "Tesla"},
+                {"proName": "BINANCE:BTCUSDT", "title": "Bitcoin"}
+            ],
+            "showSymbolLogo": true,
+            "colorTheme": "dark",
+            "isTransparent": true,
+            "displayMode": "adaptive",
+            "locale": "es"
+            }
+            </script>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 w-full glass-card border-b-0 border-x-0 border-t-0 border-b border-white/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div onclick="switchView('home')" class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <iconify-icon icon="solar:chart-square-linear" class="text-fintech-accent text-2xl" style="stroke-width: 1.5;"></iconify-icon>
+                    <span class="font-semibold text-lg tracking-tight text-white glow-text">LOBO DEL TRADING</span>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" onclick="switchView('home'); return false;" class="text-sm font-normal text-slate-300 hover:text-white transition-colors" data-i18n="nav_home">Inicio</a>
+                    <a href="#" onclick="switchView('simulator'); return false;" class="text-sm font-normal text-slate-300 hover:text-white transition-colors" data-i18n="nav_sim">Simulador</a>
+                    <a href="#" onclick="switchView('home', 'clases'); return false;" class="text-sm font-normal text-slate-300 hover:text-white transition-colors" data-i18n="nav_classes">Clases</a>
+                    <a href="#" onclick="switchView('home', 'comunidad'); return false;" class="text-sm font-normal text-slate-300 hover:text-white transition-colors" data-i18n="nav_community">Comunidad</a>
+                    <a href="#" onclick="switchView('simulator', 'ranking'); return false;" class="text-sm font-normal text-slate-300 hover:text-white transition-colors" data-i18n="nav_ranking">Ranking</a>
+                    <a href="#" onclick="switchView('home', 'recursos'); return false;" class="text-sm font-normal text-slate-300 hover:text-white transition-colors" data-i18n="nav_resources">Recursos</a>
+                </nav>
+
+                <!-- Actions -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button id="langToggle" class="flex items-center gap-1 text-sm font-normal text-slate-400 hover:text-white transition-colors px-2 py-1 rounded-md hover:bg-white/5">
+                        <iconify-icon icon="solar:global-linear" class="text-lg"></iconify-icon>
+                        <span id="currentLang">ES</span>
+                    </button>
+                    <a href="#" onclick="switchView('home', 'comunidad'); return false;" class="group relative inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-black bg-fintech-accent rounded-lg overflow-hidden transition-all hover:scale-105 shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+                        <span class="relative z-10 flex items-center gap-2">
+                            <iconify-icon icon="solar:users-group-rounded-linear" class="text-lg"></iconify-icon>
+                            <span data-i18n="btn_discord">Unirse al Discord</span>
+                        </span>
+                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center gap-4">
+                    <button id="langToggleMobile" class="flex items-center gap-1 text-sm text-slate-400">
+                        <span id="currentLangMobile">ES</span>
+                    </button>
+                    <button id="mobileMenuBtn" class="text-slate-300 hover:text-white p-2">
+                        <iconify-icon icon="solar:hamburger-menu-linear" class="text-2xl"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobileMenu" class="hidden md:hidden glass-card border-t border-white/10 absolute w-full left-0">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#" onclick="switchView('home'); return false;" class="block px-3 py-2 rounded-md text-base font-normal text-slate-300 hover:text-white hover:bg-white/5" data-i18n="nav_home">Inicio</a>
+                <a href="#" onclick="switchView('simulator'); return false;" class="block px-3 py-2 rounded-md text-base font-normal text-slate-300 hover:text-white hover:bg-white/5" data-i18n="nav_sim">Simulador</a>
+                <a href="#" onclick="switchView('home', 'clases'); return false;" class="block px-3 py-2 rounded-md text-base font-normal text-slate-300 hover:text-white hover:bg-white/5" data-i18n="nav_classes">Clases</a>
+                <a href="#" onclick="switchView('home', 'comunidad'); return false;" class="block px-3 py-2 rounded-md text-base font-normal text-slate-300 hover:text-white hover:bg-white/5" data-i18n="nav_community">Comunidad</a>
+                <a href="#" onclick="switchView('simulator', 'ranking'); return false;" class="block px-3 py-2 rounded-md text-base font-normal text-slate-300 hover:text-white hover:bg-white/5" data-i18n="nav_ranking">Ranking</a>
+                <a href="#" onclick="switchView('home', 'recursos'); return false;" class="block px-3 py-2 rounded-md text-base font-normal text-slate-300 hover:text-white hover:bg-white/5" data-i18n="nav_resources">Recursos</a>
+                <a href="#" onclick="switchView('home', 'comunidad'); return false;" class="block w-full text-center mt-4 px-4 py-2 text-sm font-medium text-black bg-fintech-accent rounded-lg" data-i18n="btn_discord">Unirse al Discord</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Background Elements -->
+    <div class="fixed inset-0 z-[-1] pointer-events-none">
+        <div class="absolute inset-0 bg-grid animate-grid-flow"></div>
+        <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-fintech-accent/10 rounded-full blur-[120px] mix-blend-screen"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[150px] mix-blend-screen"></div>
+    </div>
+
+    <main>
+        
+        <!-- ================= HOME VIEW ================= -->
+        <div id="view-home">
+            <!-- Hero Section -->
+            <section id="inicio" class="relative pt-20 pb-32 overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-8">
+                        <span class="flex w-2 h-2 rounded-full bg-fintech-accent animate-pulse"></span>
+                        <span class="text-xs font-medium text-slate-300 tracking-wide uppercase" data-i18n="hero_badge">Plataforma Elite</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight text-white mb-6 leading-[1.1]" data-i18n="hero_title">
+                        Aprende a dominar <br class="hidden sm:block">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-fintech-accent to-blue-500 glow-text">los mercados.</span>
+                    </h1>
+                    
+                    <p class="max-w-2xl mx-auto text-base sm:text-lg font-light text-slate-400 mb-10 leading-relaxed" data-i18n="hero_subtitle">
+                        Educación, simulación y comunidad para traders que quieren crecer de verdad. Plataforma integral con análisis en vivo.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="#" onclick="switchView('simulator'); return false;" class="w-full sm:w-auto group relative inline-flex items-center justify-center px-6 py-3 text-base font-medium text-black bg-fintech-accent rounded-xl overflow-hidden transition-all hover:scale-105 shadow-[0_0_20px_rgba(0,240,255,0.2)]">
+                            <span class="relative z-10 flex items-center gap-2">
+                                <iconify-icon icon="solar:rocket-linear" class="text-xl"></iconify-icon>
+                                <span data-i18n="btn_enter_sim">Entrar al Simulador</span>
+                            </span>
+                        </a>
+                        <a href="#" onclick="switchView('home', 'clases'); return false;" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors">
+                            <span data-i18n="btn_view_classes">Ver Clases</span>
+                        </a>
+                    </div>
+
+                    <!-- Trust Indicators -->
+                    <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 max-w-4xl mx-auto border-t border-white/10 pt-10">
+                        <div class="flex flex-col items-center gap-2">
+                            <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-2xl text-fintech-accent"></iconify-icon>
+                            <span class="text-xs font-normal text-slate-400" data-i18n="trust_1">Comunidad Activa</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2">
+                            <iconify-icon icon="solar:chart-square-linear" class="text-2xl text-fintech-accent"></iconify-icon>
+                            <span class="text-xs font-normal text-slate-400" data-i18n="trust_2">Simulador Funcional</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2">
+                            <iconify-icon icon="solar:video-library-linear" class="text-2xl text-fintech-accent"></iconify-icon>
+                            <span class="text-xs font-normal text-slate-400" data-i18n="trust_3">Clases en Vivo</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2">
+                            <iconify-icon icon="solar:folder-with-files-linear" class="text-2xl text-fintech-accent"></iconify-icon>
+                            <span class="text-xs font-normal text-slate-400" data-i18n="trust_4">Recursos Exclusivos</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Live Chart Section -->
+            <section class="py-12 border-t border-white/5 bg-slate-900/50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <iconify-icon icon="solar:graph-up-linear" class="text-2xl text-fintech-accent"></iconify-icon>
+                        <h2 class="text-2xl font-semibold tracking-tight text-white" data-i18n="section_chart">Gráfico en Vivo</h2>
+                    </div>
+                    
+                    <div class="glass-card rounded-2xl p-1 overflow-hidden h-[500px] sm:h-[600px] w-full relative">
+                        <div class="absolute inset-0 bg-slate-900 flex items-center justify-center z-0">
+                            <iconify-icon icon="solar:spinner-linear" class="text-4xl text-fintech-accent animate-spin"></iconify-icon>
+                        </div>
+                        <div class="relative z-10 w-full h-full">
+                            <div class="tradingview-widget-container h-full">
+                                <div id="tradingview_chart" class="h-full"></div>
+                                <script src="https://s3.tradingview.com/tv.js"></script>
+                                <script>
+                                    new TradingView.widget({
+                                    "autosize": true,
+                                    "symbol": "AMEX:SPY",
+                                    "interval": "5",
+                                    "timezone": "America/New_York",
+                                    "theme": "dark",
+                                    "style": "1",
+                                    "locale": "es",
+                                    "toolbar_bg": "#0f172a",
+                                    "enable_publishing": false,
+                                    "backgroundColor": "rgba(10, 14, 23, 1)",
+                                    "hide_side_toolbar": false,
+                                    "allow_symbol_change": true,
+                                    "studies": ["MACD@tv-basicstudies", "RSI@tv-basicstudies", "MASimple@tv-basicstudies"],
+                                    "container_id": "tradingview_chart"
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Market Overview & Technicals Grid -->
+            <section class="py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Market Overview -->
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <iconify-icon icon="solar:global-linear" class="text-xl text-fintech-accent"></iconify-icon>
+                                <h3 class="text-lg font-medium tracking-tight" data-i18n="section_overview">Resumen del Mercado</h3>
+                            </div>
+                            <div class="glass-card rounded-xl overflow-hidden h-[400px]">
+                                <div class="tradingview-widget-container h-full">
+                                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async="">
+                                    {
+                                    "colorTheme": "dark",
+                                    "dateRange": "12M",
+                                    "showChart": true,
+                                    "locale": "es",
+                                    "width": "100%",
+                                    "height": "100%",
+                                    "isTransparent": true,
+                                    "tabs": [
+                                        { "title": "Índices", "symbols": [ { "s": "SPX", "d": "S&P 500" }, { "s": "NASDAQ:QQQ", "d": "Nasdaq" }, { "s": "AMEX:SPY", "d": "SPY" } ] },
+                                        { "title": "Crypto", "symbols": [ { "s": "BINANCE:BTCUSDT" }, { "s": "BINANCE:ETHUSDT" } ] }
+                                    ]
+                                    }
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Technical Analysis -->
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <iconify-icon icon="solar:ruler-pen-linear" class="text-xl text-fintech-accent"></iconify-icon>
+                                <h3 class="text-lg font-medium tracking-tight" data-i18n="section_tech">Análisis Técnico</h3>
+                            </div>
+                            <div class="glass-card rounded-xl overflow-hidden h-[400px]">
+                                <div class="tradingview-widget-container h-full">
+                                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async="">
+                                    {
+                                    "interval": "5m",
+                                    "width": "100%",
+                                    "isTransparent": true,
+                                    "height": "100%",
+                                    "symbol": "NASDAQ:AAPL",
+                                    "showIntervalTabs": true,
+                                    "locale": "es",
+                                    "colorTheme": "dark"
+                                    }
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Heatmap Section -->
+            <section class="py-12 border-t border-white/5 bg-slate-900/30">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <iconify-icon icon="solar:map-arrow-square-linear" class="text-2xl text-fintech-accent"></iconify-icon>
+                        <h2 class="text-2xl font-semibold tracking-tight" data-i18n="section_heatmap">Mapa del Mercado</h2>
+                    </div>
+                    <div class="glass-card rounded-2xl p-1 overflow-hidden h-[500px]">
+                        <div class="tradingview-widget-container h-full">
+                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async="">
+                            {
+                            "exchanges": ["NASDAQ"], "dataSource": "SPX500", "grouping": "sector", "blockSize": "market_cap_basic",
+                            "blockColor": "change", "locale": "es", "symbolUrl": "", "colorTheme": "dark", "hasTopBar": true,
+                            "isDataSetEnabled": true, "isZoomEnabled": true, "hasSymbolTooltip": true, "width": "100%", "height": "100%", "isTransparent": true
+                            }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Classes Section -->
+            <section id="clases" class="py-20 relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-semibold tracking-tight text-white mb-3" data-i18n="classes_title">Clases y Mentorías</h2>
+                        <p class="text-slate-400 font-light max-w-2xl mx-auto" data-i18n="classes_desc">Eleva tu nivel con educación estructurada. Desde conceptos básicos hasta estrategias avanzadas.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Class Card 1 -->
+                        <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-fintech-accent/50 transition-colors duration-300 group">
+                            <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4 text-blue-400 group-hover:scale-110 transition-transform">
+                                <iconify-icon icon="solar:book-bookmark-linear" class="text-2xl"></iconify-icon>
+                            </div>
+                            <h3 class="text-lg font-medium text-white mb-2" data-i18n="class_1_title">Clase Básica de Trading</h3>
+                            <p class="text-sm text-slate-400 mb-6 flex-1 line-clamp-3" data-i18n="class_1_desc">Aprende los fundamentos del mercado, lectura de velas y uso de la plataforma desde cero.</p>
+                            
+                            <div class="space-y-2 mb-6">
+                                <div class="flex items-center justify-between text-xs text-slate-300">
+                                    <span class="flex items-center gap-1.5"><iconify-icon icon="solar:calendar-linear"></iconify-icon> Próximo Lunes</span>
+                                    <span>19:00 EST</span>
+                                </div>
+                                <div class="flex items-center justify-between font-mono text-sm">
+                                    <span class="text-slate-500">Precio:</span>
+                                    <span class="text-white font-medium">Gratis</span>
+                                </div>
+                            </div>
+                            <button onclick="openModal('Clase Básica de Trading')" class="w-full py-2.5 bg-white/5 hover:bg-white/10 text-white rounded-lg text-sm font-medium transition-colors border border-white/10" data-i18n="btn_book">Reservar Lugar</button>
+                        </div>
+
+                        <!-- Class Card 2 -->
+                        <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-fintech-accent/50 transition-colors duration-300 group relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-fintech-accent text-black text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase" data-i18n="badge_popular">Popular</div>
+                            <div class="w-12 h-12 rounded-xl bg-fintech-accent/10 flex items-center justify-center mb-4 text-fintech-accent group-hover:scale-110 transition-transform">
+                                <iconify-icon icon="solar:chart-line-up-linear" class="text-2xl"></iconify-icon>
+                            </div>
+                            <h3 class="text-lg font-medium text-white mb-2" data-i18n="class_2_title">Seminario de Opciones</h3>
+                            <p class="text-sm text-slate-400 mb-6 flex-1 line-clamp-3" data-i18n="class_2_desc">Domina las opciones financieras. Estrategias direccionales, volatilidad y gestión de contratos.</p>
+                            
+                            <div class="space-y-2 mb-6">
+                                <div class="flex items-center justify-between text-xs text-slate-300">
+                                    <span class="flex items-center gap-1.5"><iconify-icon icon="solar:calendar-linear"></iconify-icon> 15 de Noviembre</span>
+                                    <span>18:00 EST</span>
+                                </div>
+                                <div class="flex items-center justify-between font-mono text-sm">
+                                    <span class="text-slate-500">Precio:</span>
+                                    <span class="text-white font-medium">$49.99</span>
+                                </div>
+                            </div>
+                            <button onclick="openModal('Seminario de Opciones')" class="w-full py-2.5 bg-fintech-accent text-black hover:bg-[#00d4e0] rounded-lg text-sm font-medium transition-colors shadow-[0_0_10px_rgba(0,240,255,0.2)]" data-i18n="btn_enroll">Inscribirme</button>
+                        </div>
+
+                        <!-- Class Card 3 -->
+                        <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-fintech-gold/50 transition-colors duration-300 group border border-fintech-gold/20">
+                            <div class="w-12 h-12 rounded-xl bg-fintech-gold/10 flex items-center justify-center mb-4 text-fintech-gold group-hover:scale-110 transition-transform">
+                                <iconify-icon icon="solar:crown-star-linear" class="text-2xl"></iconify-icon>
+                            </div>
+                            <h3 class="text-lg font-medium text-white mb-2" data-i18n="class_3_title">Mentoría Privada 1 a 1</h3>
+                            <p class="text-sm text-slate-400 mb-6 flex-1 line-clamp-3" data-i18n="class_3_desc">Atención personalizada. Analizamos tu operativa, corregimos errores y creamos un plan a medida.</p>
+                            
+                            <div class="space-y-2 mb-6">
+                                <div class="flex items-center justify-between text-xs text-slate-300">
+                                    <span class="flex items-center gap-1.5"><iconify-icon icon="solar:clock-circle-linear"></iconify-icon> Horario Flexible</span>
+                                    <span>1 Hora</span>
+                                </div>
+                                <div class="flex items-center justify-between font-mono text-sm">
+                                    <span class="text-slate-500">Precio:</span>
+                                    <span class="text-white font-medium">$150.00</span>
+                                </div>
+                            </div>
+                            <button onclick="openModal('Mentoría Privada')" class="w-full py-2.5 bg-white/5 hover:bg-white/10 text-fintech-gold border border-fintech-gold/30 rounded-lg text-sm font-medium transition-colors" data-i18n="btn_request">Solicitar Sesión</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Discord CTA -->
+            <section id="comunidad" class="py-16">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="bg-gradient-to-br from-[#5865F2]/20 to-[#0a0e17] border border-[#5865F2]/30 rounded-3xl p-8 sm:p-12 relative overflow-hidden text-center">
+                        <div class="absolute top-0 right-0 -mt-10 -mr-10 text-[#5865F2]/10 rotate-12 pointer-events-none">
+                            <iconify-icon icon="ic:baseline-discord" class="text-[200px]"></iconify-icon>
+                        </div>
+                        
+                        <div class="relative z-10 flex flex-col items-center">
+                            <div class="w-16 h-16 bg-[#5865F2] rounded-2xl flex items-center justify-center text-white mb-6 shadow-[0_0_30px_rgba(88,101,242,0.4)]">
+                                <iconify-icon icon="ic:baseline-discord" class="text-4xl"></iconify-icon>
+                            </div>
+                            <h2 class="text-3xl font-semibold tracking-tight text-white mb-4" data-i18n="discord_title">Únete a la Manada</h2>
+                            <p class="text-slate-300 max-w-lg mx-auto mb-8 font-light leading-relaxed" data-i18n="discord_desc">
+                                Análisis en vivo diarios, soporte de expertos, alertas de mercado y una comunidad de traders listos para ayudarte a crecer.
+                            </p>
+                            
+                            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                                <div class="flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-full border border-white/5">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                    <span class="text-xs font-mono text-slate-300">1,204 Online</span>
+                                </div>
+                                <div class="flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-full border border-white/5">
+                                    <span class="w-2 h-2 rounded-full bg-slate-500"></span>
+                                    <span class="text-xs font-mono text-slate-300">8,590 Miembros</span>
+                                </div>
+                            </div>
+
+                            <a href="#" class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium text-white bg-[#5865F2] rounded-xl hover:bg-[#4752C4] transition-all hover:scale-105 shadow-[0_0_20px_rgba(88,101,242,0.3)] gap-2">
+                                <iconify-icon icon="ic:baseline-discord" class="text-xl"></iconify-icon>
+                                <span data-i18n="btn_discord_main">Ingresar al Discord Ahora</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About & Socials -->
+            <section class="py-16 border-t border-white/5 bg-slate-900/20">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h2 class="text-2xl font-semibold tracking-tight text-white mb-4" data-i18n="about_title">Sobre Lobo Del Trading</h2>
+                            <p class="text-slate-400 font-light leading-relaxed mb-6" data-i18n="about_text">
+                                Lobo Del Trading es una plataforma creada para enseñar trading de forma clara, directa y moderna. Combinamos educación, herramientas visuales, simulación y comunidad para ayudar a traders a crecer con más estructura y confianza.
+                            </p>
+                            <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-300">
+                                <iconify-icon icon="solar:shield-check-linear" class="text-fintech-accent"></iconify-icon>
+                                <span data-i18n="seven_fold">Orgullosos socios administradores de Seven Fold Wealth</span>
+                            </div>
+                        </div>
+
+                        <div class="glass-card rounded-2xl p-8 flex flex-col items-center text-center">
+                            <div class="w-20 h-20 rounded-full bg-slate-800 border-2 border-fintech-accent p-1 mb-4">
+                                <div class="w-full h-full bg-slate-700 rounded-full flex items-center justify-center text-2xl">🐺</div>
+                            </div>
+                            <h3 class="text-lg font-medium text-white" data-i18n="social_title">Sígueme en Redes</h3>
+                            <p class="text-sm text-slate-500 mb-6" data-i18n="social_desc">Contenido educativo diario.</p>
+                            
+                            <div class="flex gap-4">
+                                <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all">
+                                    <iconify-icon icon="mdi:instagram" class="text-xl"></iconify-icon>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all">
+                                    <iconify-icon icon="ic:baseline-tiktok" class="text-xl"></iconify-icon>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-300 hover:text-red-500 hover:bg-white/10 hover:shadow-[0_0_15px_rgba(239,68,68,0.2)] transition-all">
+                                    <iconify-icon icon="mdi:youtube" class="text-xl"></iconify-icon>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all">
+                                    <iconify-icon icon="ri:twitter-x-fill" class="text-xl"></iconify-icon>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resources -->
+            <section id="recursos" class="py-16">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center gap-3 mb-8">
+                        <iconify-icon icon="solar:folder-with-files-linear" class="text-2xl text-fintech-accent"></iconify-icon>
+                        <h2 class="text-2xl font-semibold tracking-tight" data-i18n="res_title">Recursos Gratuitos</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                        <a href="#" class="glass-card p-4 rounded-xl flex items-center gap-3 hover:bg-white/5 transition-colors group">
+                            <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500/20">
+                                <iconify-icon icon="solar:document-text-linear" class="text-lg"></iconify-icon>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-slate-200" data-i18n="res_1">Guía Básica</h4>
+                                <span class="text-[10px] text-slate-500 uppercase">PDF</span>
+                            </div>
+                            <iconify-icon icon="solar:download-linear" class="text-slate-500 group-hover:text-white"></iconify-icon>
+                        </a>
+                        <a href="#" class="glass-card p-4 rounded-xl flex items-center gap-3 hover:bg-white/5 transition-colors group">
+                            <div class="w-10 h-10 rounded-lg bg-fintech-success/10 flex items-center justify-center text-fintech-success group-hover:bg-fintech-success/20">
+                                <iconify-icon icon="solar:checklist-minimalistic-linear" class="text-lg"></iconify-icon>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-slate-200" data-i18n="res_2">Checklist Operativo</h4>
+                                <span class="text-[10px] text-slate-500 uppercase">PDF</span>
+                            </div>
+                            <iconify-icon icon="solar:download-linear" class="text-slate-500 group-hover:text-white"></iconify-icon>
+                        </a>
+                        <a href="#" class="glass-card p-4 rounded-xl flex items-center gap-3 hover:bg-white/5 transition-colors group">
+                            <div class="w-10 h-10 rounded-lg bg-fintech-gold/10 flex items-center justify-center text-fintech-gold group-hover:bg-fintech-gold/20">
+                                <iconify-icon icon="solar:clock-circle-linear" class="text-lg"></iconify-icon>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-slate-200" data-i18n="res_3">Horarios Mercado</h4>
+                                <span class="text-[10px] text-slate-500 uppercase">Imagen</span>
+                            </div>
+                            <iconify-icon icon="solar:download-linear" class="text-slate-500 group-hover:text-white"></iconify-icon>
+                        </a>
+                        <a href="#" class="glass-card p-4 rounded-xl flex items-center gap-3 hover:bg-white/5 transition-colors group">
+                            <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-500/20">
+                                <iconify-icon icon="solar:notebook-linear" class="text-lg"></iconify-icon>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-slate-200" data-i18n="res_4">Diario de Trading</h4>
+                                <span class="text-[10px] text-slate-500 uppercase">Excel</span>
+                            </div>
+                            <iconify-icon icon="solar:download-linear" class="text-slate-500 group-hover:text-white"></iconify-icon>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= SIMULATOR VIEW ================= -->
+        <div id="view-simulator" class="hidden">
+            <!-- Simulator Dashboard (Highly Interactive UI) -->
+            <section id="simulador" class="py-20 relative">
+                <div class="absolute inset-0 bg-fintech-accent/5 blur-[100px] z-0 rounded-full w-3/4 mx-auto top-20 h-1/2 pointer-events-none"></div>
+                
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-semibold tracking-tight text-white mb-3" data-i18n="sim_title">Simulador de Paper Trading</h2>
+                        <p class="text-slate-400 font-light max-w-2xl mx-auto" data-i18n="sim_desc">Practica tus estrategias en tiempo real con fondos virtuales. Una terminal completa para dominar la ejecución.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        
+                        <!-- Control Panel (Left) -->
+                        <div class="lg:col-span-4 space-y-6">
+                            <!-- Balance Card -->
+                            <div class="glass-card rounded-2xl p-6 glow-border transition-all">
+                                <h3 class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-2" data-i18n="sim_balance_label">Balance Virtual</h3>
+                                <div class="flex items-end gap-3 mb-4">
+                                    <span class="text-4xl font-mono font-medium text-white" id="sim-balance">$100,000.00</span>
+                                    <div class="flex items-center text-fintech-success text-sm mb-1 bg-fintech-success/10 px-2 py-0.5 rounded">
+                                        <iconify-icon icon="solar:arrow-right-up-linear"></iconify-icon>
+                                        <span id="sim-pnl-pct">+0.00%</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4 mt-6">
+                                    <div class="bg-black/20 p-3 rounded-lg border border-white/5">
+                                        <span class="block text-[10px] text-slate-500 uppercase mb-1" data-i18n="sim_equity">Equidad</span>
+                                        <span class="font-mono text-sm text-slate-200" id="sim-equity">$100,000.00</span>
+                                    </div>
+                                    <div class="bg-black/20 p-3 rounded-lg border border-white/5">
+                                        <span class="block text-[10px] text-slate-500 uppercase mb-1" data-i18n="sim_buying_power">Poder de Compra</span>
+                                        <span class="font-mono text-sm text-slate-200" id="sim-bp">$100,000.00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Order Entry -->
+                            <div class="glass-card rounded-2xl p-6 relative overflow-hidden">
+                                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-fintech-accent to-blue-500"></div>
+                                <h3 class="text-sm font-medium text-white mb-4 flex items-center gap-2">
+                                    <iconify-icon icon="solar:transfer-horizontal-linear" class="text-fintech-accent"></iconify-icon>
+                                    <span data-i18n="sim_order_entry">Nueva Orden</span>
+                                </h3>
+
+                                <div class="space-y-4">
+                                    <!-- Asset Select -->
+                                    <div>
+                                        <label class="block text-xs font-normal text-slate-400 mb-1" data-i18n="sim_asset">Activo</label>
+                                        <div class="relative">
+                                            <select id="sim-asset" class="w-full bg-slate-900 border border-white/10 text-white text-sm rounded-lg px-4 py-3 outline-none focus:border-fintech-accent focus:ring-1 focus:ring-fintech-accent appearance-none font-mono cursor-pointer">
+                                                <option value="SPY">SPY</option>
+                                                <option value="QQQ">QQQ</option>
+                                                <option value="AAPL">AAPL</option>
+                                                <option value="TSLA">TSLA</option>
+                                                <option value="BTCUSD">BTCUSD</option>
+                                            </select>
+                                            <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-400">
+                                                <iconify-icon icon="solar:alt-arrow-down-linear"></iconify-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Live Price Display (Mocked) -->
+                                    <div class="flex justify-between items-center bg-black/30 rounded-lg p-3 border border-white/5">
+                                        <span class="text-xs text-slate-400" data-i18n="sim_current_price">Precio Actual:</span>
+                                        <span class="font-mono text-lg text-fintech-accent" id="sim-price">$---.--</span>
+                                    </div>
+
+                                    <!-- Quantity -->
+                                    <div>
+                                        <label class="block text-xs font-normal text-slate-400 mb-1" data-i18n="sim_qty">Cantidad (Acciones/Contratos)</label>
+                                        <div class="flex items-center gap-2">
+                                            <button class="bg-slate-800 text-white w-10 h-10 rounded-lg hover:bg-slate-700 flex items-center justify-center border border-white/10" onclick="document.getElementById('sim-qty').value = Math.max(1, parseInt(document.getElementById('sim-qty').value || 1) - 1)">-</button>
+                                            <input type="number" id="sim-qty" value="10" min="1" class="flex-1 bg-slate-900 border border-white/10 text-white text-center text-lg font-mono rounded-lg h-10 outline-none focus:border-fintech-accent">
+                                            <button class="bg-slate-800 text-white w-10 h-10 rounded-lg hover:bg-slate-700 flex items-center justify-center border border-white/10" onclick="document.getElementById('sim-qty').value = parseInt(document.getElementById('sim-qty').value || 1) + 1">+</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Total Cost -->
+                                    <div class="flex justify-between items-center text-sm pt-2">
+                                        <span class="text-slate-500" data-i18n="sim_est_cost">Costo Estimado:</span>
+                                        <span class="font-mono text-white" id="sim-total">$---.--</span>
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="grid grid-cols-2 gap-3 pt-2">
+                                        <button id="btn-buy" class="w-full bg-fintech-success hover:bg-emerald-400 text-white font-medium py-3 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.2)] transition-all active:scale-95 flex items-center justify-center gap-2">
+                                            <span data-i18n="sim_buy">Comprar</span> (Long)
+                                        </button>
+                                        <button id="btn-sell" class="w-full bg-fintech-danger hover:bg-red-400 text-white font-medium py-3 rounded-lg shadow-[0_0_15px_rgba(239,68,68,0.2)] transition-all active:scale-95 flex items-center justify-center gap-2">
+                                            <span data-i18n="sim_sell">Vender</span> (Short)
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data Panels (Right) -->
+                        <div class="lg:col-span-8 flex flex-col gap-6">
+                            
+                            <!-- Open Positions -->
+                            <div class="glass-card rounded-2xl flex-1 flex flex-col min-h-[250px] overflow-hidden">
+                                <div class="px-6 py-4 border-b border-white/5 bg-white/[0.02] flex justify-between items-center">
+                                    <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                                        <iconify-icon icon="solar:suitcase-lines-linear" class="text-slate-400"></iconify-icon>
+                                        <span data-i18n="sim_positions">Posiciones Abiertas</span>
+                                    </h3>
+                                </div>
+                                <div class="p-0 overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr class="bg-black/20 text-[10px] uppercase tracking-wider text-slate-500 font-mono">
+                                                <th class="px-6 py-3 font-normal" data-i18n="th_asset">Activo</th>
+                                                <th class="px-6 py-3 font-normal" data-i18n="th_type">Tipo</th>
+                                                <th class="px-6 py-3 font-normal text-right" data-i18n="th_qty">Cant.</th>
+                                                <th class="px-6 py-3 font-normal text-right" data-i18n="th_entry">Entrada</th>
+                                                <th class="px-6 py-3 font-normal text-right" data-i18n="th_current">Actual</th>
+                                                <th class="px-6 py-3 font-normal text-right" data-i18n="th_pnl">P&amp;L</th>
+                                                <th class="px-6 py-3 font-normal text-center" data-i18n="th_action">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="sim-positions-body" class="divide-y divide-white/5 text-sm font-mono text-slate-300">
+                                            <!-- Populated via JS -->
+                                            <tr><td colspan="7" class="px-6 py-8 text-center text-slate-500 font-sans text-xs" data-i18n="sim_no_pos">No hay posiciones abiertas.</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Trade History -->
+                            <div class="glass-card rounded-2xl flex-1 flex flex-col min-h-[200px] overflow-hidden">
+                                <div class="px-6 py-4 border-b border-white/5 bg-white/[0.02]">
+                                    <h3 class="text-sm font-medium text-white flex items-center gap-2">
+                                        <iconify-icon icon="solar:history-linear" class="text-slate-400"></iconify-icon>
+                                        <span data-i18n="sim_history">Historial de Operaciones</span>
+                                    </h3>
+                                </div>
+                                <div class="p-0 overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr class="bg-black/20 text-[10px] uppercase tracking-wider text-slate-500 font-mono">
+                                                <th class="px-6 py-3 font-normal" data-i18n="th_time">Hora</th>
+                                                <th class="px-6 py-3 font-normal" data-i18n="th_asset">Activo</th>
+                                                <th class="px-6 py-3 font-normal" data-i18n="th_action_type">Acción</th>
+                                                <th class="px-6 py-3 font-normal text-right" data-i18n="th_qty">Cant.</th>
+                                                <th class="px-6 py-3 font-normal text-right" data-i18n="th_price">Precio</th>
+                                                <th class="px-6 py-3 font-normal text-right" data-i18n="th_result">Resultado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="sim-history-body" class="divide-y divide-white/5 text-sm font-mono text-slate-300">
+                                            <!-- Populated via JS -->
+                                            <tr><td colspan="6" class="px-6 py-6 text-center text-slate-500 font-sans text-xs" data-i18n="sim_no_history">No hay operaciones recientes.</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gamification / Ranking -->
+            <section id="ranking" class="py-16 bg-slate-900/40 border-y border-white/5">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <!-- Leaderboard -->
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-6">
+                                <iconify-icon icon="solar:cup-star-linear" class="text-2xl text-fintech-gold"></iconify-icon>
+                                <h2 class="text-2xl font-semibold tracking-tight" data-i18n="rank_title">Ranking Semanal</h2>
+                            </div>
+                            
+                            <div class="glass-card rounded-2xl overflow-hidden">
+                                <table class="w-full text-left">
+                                    <tbody><tr class="bg-white/5 text-xs text-slate-400 border-b border-white/10 uppercase tracking-wider">
+                                        <th class="px-4 py-3 font-normal w-12 text-center">#</th>
+                                        <th class="px-4 py-3 font-normal" data-i18n="rank_trader">Trader</th>
+                                        <th class="px-4 py-3 font-normal text-right" data-i18n="rank_return">Retorno</th>
+                                        <th class="px-4 py-3 font-normal text-right hidden sm:table-cell" data-i18n="rank_winrate">Win Rate</th>
+                                    </tr>
+                                    <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                                        <td class="px-4 py-4 text-center text-fintech-gold font-bold">1</td>
+                                        <td class="px-4 py-4 flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center text-xs text-blue-400">A</div>
+                                            <span class="font-medium text-white">AlphaWolf</span>
+                                        </td>
+                                        <td class="px-4 py-4 text-right text-fintech-success font-mono">+18.4%</td>
+                                        <td class="px-4 py-4 text-right text-slate-300 font-mono hidden sm:table-cell">68%</td>
+                                    </tr>
+                                    <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                                        <td class="px-4 py-4 text-center text-slate-300 font-medium">2</td>
+                                        <td class="px-4 py-4 flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center text-xs text-purple-400">M</div>
+                                            <span class="font-medium text-white">MarketSniper</span>
+                                        </td>
+                                        <td class="px-4 py-4 text-right text-fintech-success font-mono">+12.1%</td>
+                                        <td class="px-4 py-4 text-right text-slate-300 font-mono hidden sm:table-cell">72%</td>
+                                    </tr>
+                                    <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors bg-white/[0.03]">
+                                        <td class="px-4 py-4 text-center text-fintech-accent font-medium">3</td>
+                                        <td class="px-4 py-4 flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-full bg-fintech-accent/20 flex items-center justify-center text-xs text-fintech-accent">T</div>
+                                            <span class="font-medium text-white">Tu Perfil <span class="text-[10px] bg-fintech-accent text-black px-1.5 py-0.5 rounded ml-1" data-i18n="rank_you">TÚ</span></span>
+                                        </td>
+                                        <td class="px-4 py-4 text-right text-slate-300 font-mono" id="rank-user-pnl">0.0%</td>
+                                        <td class="px-4 py-4 text-right text-slate-300 font-mono hidden sm:table-cell">--%</td>
+                                    </tr>
+                                    <tr class="hover:bg-white/[0.02] transition-colors">
+                                        <td class="px-4 py-4 text-center text-slate-500 font-medium">4</td>
+                                        <td class="px-4 py-4 flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs text-emerald-400">S</div>
+                                            <span class="font-medium text-slate-300">SevenFoldFX</span>
+                                        </td>
+                                        <td class="px-4 py-4 text-right text-fintech-success font-mono">+8.2%</td>
+                                        <td class="px-4 py-4 text-right text-slate-300 font-mono hidden sm:table-cell">55%</td>
+                                    </tr>
+                                </tbody></table>
+                            </div>
+                        </div>
+
+                        <!-- Achievements & Stats -->
+                        <div class="md:w-80 space-y-6">
+                            <div class="glass-card rounded-2xl p-5">
+                                <h3 class="text-sm font-medium text-white mb-4" data-i18n="badge_title">Tus Logros</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <div class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-2.5 py-1.5 rounded-lg opacity-50 hover:opacity-100 transition-opacity" title="Primera Operación">
+                                        <span class="text-lg">🐺</span> <span class="text-[10px] uppercase tracking-wider text-slate-300" data-i18n="badge_1">Novato</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 bg-fintech-success/10 border border-fintech-success/30 px-2.5 py-1.5 rounded-lg" title="5 Trades Ganadores">
+                                        <span class="text-lg">📈</span> <span class="text-[10px] uppercase tracking-wider text-fintech-success" data-i18n="badge_2">Racha x5</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-2.5 py-1.5 rounded-lg opacity-50" title="+10% Rentabilidad">
+                                        <span class="text-lg">🔥</span> <span class="text-[10px] uppercase tracking-wider text-slate-300" data-i18n="badge_3">Fuego</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 bg-blue-500/10 border border-blue-500/30 px-2.5 py-1.5 rounded-lg">
+                                        <span class="text-lg">🧠</span> <span class="text-[10px] uppercase tracking-wider text-blue-400" data-i18n="badge_4">Disciplina</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="glass-card rounded-2xl p-5">
+                                <h3 class="text-sm font-medium text-white mb-3" data-i18n="goal_title">Reto del Día</h3>
+                                <p class="text-xs text-slate-400 mb-3" data-i18n="goal_desc">Realiza 3 operaciones con gestión de riesgo 1:2.</p>
+                                <div class="w-full bg-slate-800 rounded-full h-2 mb-1">
+                                    <div class="bg-fintech-accent h-2 rounded-full" style="width: 33%"></div>
+                                </div>
+                                <div class="flex justify-between text-[10px] text-slate-500 font-mono">
+                                    <span>1/3</span>
+                                    <span>33%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 bg-slate-950 pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+                <div onclick="switchView('home')" class="flex items-center gap-2 cursor-pointer">
+                    <iconify-icon icon="solar:chart-square-linear" class="text-slate-400 text-2xl"></iconify-icon>
+                    <span class="font-semibold text-lg tracking-tight text-slate-300">LOBO DEL TRADING</span>
+                </div>
+                <div class="flex gap-6 text-sm text-slate-400">
+                    <a href="#" onclick="switchView('home'); return false;" class="hover:text-white transition-colors" data-i18n="nav_home">Inicio</a>
+                    <a href="#" onclick="switchView('simulator'); return false;" class="hover:text-white transition-colors" data-i18n="nav_sim">Simulador</a>
+                    <a href="#" onclick="switchView('home', 'clases'); return false;" class="hover:text-white transition-colors" data-i18n="nav_classes">Clases</a>
+                </div>
+            </div>
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+                <p>© <span id="year"></span> Lobo Del Trading. <span data-i18n="footer_rights">Todos los derechos reservados.</span></p>
+                <p data-i18n="seven_fold_en">Proud Managing Partners of Seven Fold Wealth</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-slate-300" data-i18n="footer_privacy">Privacidad</a>
+                    <a href="#" class="hover:text-slate-300" data-i18n="footer_terms">Términos</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="fixed inset-0 z-[100] hidden items-center justify-center px-4" aria-modal="true">
+        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative w-full max-w-md bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300" id="modalContent">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-white/5">
+                <h3 class="text-lg font-medium text-white" data-i18n="modal_title">Inscripción</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white transition-colors">
+                    <iconify-icon icon="solar:close-circle-linear" class="text-2xl"></iconify-icon>
+                </button>
+            </div>
+            <div class="p-6">
+                <p class="text-sm text-slate-400 mb-4"><span data-i18n="modal_selected">Clase seleccionada:</span> <span id="modalClassName" class="text-fintech-accent font-medium">--</span></p>
+                
+                <form class="space-y-4" onsubmit="event.preventDefault(); alert('Formulario enviado (Demo)'); closeModal();">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1" data-i18n="form_name">Nombre</label>
+                        <input type="text" required="" class="w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-fintech-accent focus:ring-1 focus:ring-fintech-accent">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1" data-i18n="form_email">Correo Electrónico</label>
+                        <input type="email" required="" class="w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-fintech-accent focus:ring-1 focus:ring-fintech-accent">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1" data-i18n="form_phone">Teléfono</label>
+                        <input type="tel" class="w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-fintech-accent focus:ring-1 focus:ring-fintech-accent">
+                    </div>
+                    
+                    <div class="pt-4 grid grid-cols-2 gap-3">
+                        <button type="button" class="w-full py-2.5 bg-[#0070ba]/20 text-[#0070ba] border border-[#0070ba]/50 rounded-lg text-sm font-medium flex items-center justify-center gap-2 hover:bg-[#0070ba]/30 transition-colors">
+                            <iconify-icon icon="cib:paypal" class="text-lg"></iconify-icon> PayPal
+                        </button>
+                        <button type="button" class="w-full py-2.5 bg-[#635bff]/20 text-[#635bff] border border-[#635bff]/50 rounded-lg text-sm font-medium flex items-center justify-center gap-2 hover:bg-[#635bff]/30 transition-colors">
+                            <iconify-icon icon="cib:stripe" class="text-lg"></iconify-icon> Stripe
+                        </button>
+                    </div>
+
+                    <button type="submit" class="w-full mt-4 py-3 bg-fintech-accent text-black rounded-lg text-sm font-medium hover:bg-[#00d4e0] transition-colors" data-i18n="form_submit">Confirmar Reserva</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts for Functionality -->
+    <script>
+        // --- View Switching (SPA Logic) ---
+        function switchView(viewName, scrollToId = null) {
+            const homeView = document.getElementById('view-home');
+            const simView = document.getElementById('view-simulator');
+            
+            if (viewName === 'home') {
+                homeView.classList.remove('hidden');
+                simView.classList.add('hidden');
+            } else if (viewName === 'simulator') {
+                homeView.classList.add('hidden');
+                simView.classList.remove('hidden');
+            }
+            
+            // Close mobile menu if open
+            document.getElementById('mobileMenu').classList.add('hidden');
+            
+            // Handle Scrolling
+            if (scrollToId) {
+                // Short delay to ensure the DOM unhides before scrolling
+                setTimeout(() => {
+                    const el = document.getElementById(scrollToId);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, 50);
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // --- Translations ---
+        const translations = {
+            es: {
+                nav_home: "Inicio", nav_sim: "Simulador", nav_classes: "Clases", nav_community: "Comunidad", nav_ranking: "Ranking", nav_resources: "Recursos",
+                btn_discord: "Unirse al Discord", hero_badge: "Plataforma Elite", hero_title: "Aprende a dominar \n <span class='text-transparent bg-clip-text bg-gradient-to-r from-fintech-accent to-blue-500 glow-text'>los mercados.</span>",
+                hero_subtitle: "Educación, simulación y comunidad para traders que quieren crecer de verdad. Plataforma integral con análisis en vivo.",
+                btn_enter_sim: "Entrar al Simulador", btn_view_classes: "Ver Clases",
+                trust_1: "Comunidad Activa", trust_2: "Simulador Funcional", trust_3: "Clases en Vivo", trust_4: "Recursos Exclusivos",
+                section_chart: "Gráfico en Vivo", section_overview: "Resumen del Mercado", section_tech: "Análisis Técnico", section_heatmap: "Mapa del Mercado",
+                sim_title: "Simulador de Paper Trading", sim_desc: "Practica tus estrategias en tiempo real con fondos virtuales. Una terminal completa para dominar la ejecución.",
+                sim_balance_label: "Balance Virtual", sim_equity: "Equidad", sim_buying_power: "Poder de Compra",
+                sim_order_entry: "Nueva Orden", sim_asset: "Activo", sim_current_price: "Precio Actual:", sim_qty: "Cantidad (Acciones/Contratos)",
+                sim_est_cost: "Costo Estimado:", sim_buy: "Comprar", sim_sell: "Vender", sim_positions: "Posiciones Abiertas",
+                th_asset: "Activo", th_type: "Tipo", th_qty: "Cant.", th_entry: "Entrada", th_current: "Actual", th_pnl: "P&L", th_action: "Acción",
+                sim_no_pos: "No hay posiciones abiertas.", sim_history: "Historial de Operaciones",
+                th_time: "Hora", th_action_type: "Acción", th_price: "Precio", th_result: "Resultado", sim_no_history: "No hay operaciones recientes.",
+                rank_title: "Ranking Semanal", rank_trader: "Trader", rank_return: "Retorno", rank_winrate: "Win Rate", rank_you: "TÚ",
+                badge_title: "Tus Logros", badge_1: "Novato", badge_2: "Racha x5", badge_3: "Fuego", badge_4: "Disciplina",
+                goal_title: "Reto del Día", goal_desc: "Realiza 3 operaciones con gestión de riesgo 1:2.",
+                classes_title: "Clases y Mentorías", classes_desc: "Eleva tu nivel con educación estructurada. Desde conceptos básicos hasta estrategias avanzadas.",
+                class_1_title: "Clase Básica de Trading", class_1_desc: "Aprende los fundamentos del mercado, lectura de velas y uso de la plataforma desde cero.",
+                class_2_title: "Seminario de Opciones", class_2_desc: "Domina las opciones financieras. Estrategias direccionales, volatilidad y gestión de contratos.",
+                class_3_title: "Mentoría Privada 1 a 1", class_3_desc: "Atención personalizada. Analizamos tu operativa, corregimos errores y creamos un plan a medida.",
+                badge_popular: "Popular", btn_book: "Reservar Lugar", btn_enroll: "Inscribirme", btn_request: "Solicitar Sesión",
+                discord_title: "Únete a la Manada", discord_desc: "Análisis en vivo diarios, soporte de expertos, alertas de mercado y una comunidad de traders listos para ayudarte a crecer.",
+                btn_discord_main: "Ingresar al Discord Ahora", about_title: "Sobre Lobo Del Trading",
+                about_text: "Lobo Del Trading es una plataforma creada para enseñar trading de forma clara, directa y moderna. Combinamos educación, herramientas visuales, simulación y comunidad para ayudar a traders a crecer con más estructura y confianza.",
+                seven_fold: "Orgullosos socios administradores de Seven Fold Wealth", social_title: "Sígueme en Redes", social_desc: "Contenido educativo diario.",
+                res_title: "Recursos Gratuitos", res_1: "Guía Básica", res_2: "Checklist Operativo", res_3: "Horarios Mercado", res_4: "Diario de Trading",
+                footer_rights: "Todos los derechos reservados.", seven_fold_en: "Proud Managing Partners of Seven Fold Wealth", footer_privacy: "Privacidad", footer_terms: "Términos",
+                modal_title: "Inscripción", modal_selected: "Clase seleccionada:", form_name: "Nombre", form_email: "Correo Electrónico", form_phone: "Teléfono", form_submit: "Confirmar Reserva"
+            },
+            en: {
+                nav_home: "Home", nav_sim: "Simulator", nav_classes: "Classes", nav_community: "Community", nav_ranking: "Leaderboard", nav_resources: "Resources",
+                btn_discord: "Join Discord", hero_badge: "Elite Platform", hero_title: "Learn to master \n <span class='text-transparent bg-clip-text bg-gradient-to-r from-fintech-accent to-blue-500 glow-text'>the markets.</span>",
+                hero_subtitle: "Education, simulation, and community for traders who truly want to grow. All-in-one platform with live analysis.",
+                btn_enter_sim: "Enter Simulator", btn_view_classes: "View Classes",
+                trust_1: "Active Community", trust_2: "Functional Simulator", trust_3: "Live Classes", trust_4: "Exclusive Resources",
+                section_chart: "Live Chart", section_overview: "Market Overview", section_tech: "Technical Analysis", section_heatmap: "Market Heatmap",
+                sim_title: "Paper Trading Simulator", sim_desc: "Practice your strategies in real-time with virtual funds. A complete terminal to master execution.",
+                sim_balance_label: "Virtual Balance", sim_equity: "Equity", sim_buying_power: "Buying Power",
+                sim_order_entry: "New Order", sim_asset: "Asset", sim_current_price: "Current Price:", sim_qty: "Quantity (Shares/Contracts)",
+                sim_est_cost: "Estimated Cost:", sim_buy: "Buy", sim_sell: "Sell", sim_positions: "Open Positions",
+                th_asset: "Asset", th_type: "Type", th_qty: "Qty", th_entry: "Entry", th_current: "Current", th_pnl: "P&L", th_action: "Action",
+                sim_no_pos: "No open positions.", sim_history: "Trade History",
+                th_time: "Time", th_action_type: "Action", th_price: "Price", th_result: "Result", sim_no_history: "No recent trades.",
+                rank_title: "Weekly Leaderboard", rank_trader: "Trader", rank_return: "Return", rank_winrate: "Win Rate", rank_you: "YOU",
+                badge_title: "Your Achievements", badge_1: "Rookie", badge_2: "Streak x5", badge_3: "On Fire", badge_4: "Discipline",
+                goal_title: "Daily Challenge", goal_desc: "Make 3 trades with 1:2 risk management.",
+                classes_title: "Classes & Mentorship", classes_desc: "Elevate your level with structured education. From basic concepts to advanced strategies.",
+                class_1_title: "Basic Trading Class", class_1_desc: "Learn market fundamentals, candlestick reading, and platform usage from scratch.",
+                class_2_title: "Options Seminar", class_2_desc: "Master financial options. Directional strategies, volatility, and contract management.",
+                class_3_title: "1-on-1 Private Mentorship", class_3_desc: "Personalized attention. We analyze your trading, correct mistakes, and create a custom plan.",
+                badge_popular: "Popular", btn_book: "Reserve Spot", btn_enroll: "Enroll", btn_request: "Request Session",
+                discord_title: "Join the Pack", discord_desc: "Daily live analysis, expert support, market alerts, and a community of traders ready to help you grow.",
+                btn_discord_main: "Enter Discord Now", about_title: "About Lobo Del Trading",
+                about_text: "Lobo Del Trading is a platform created to teach trading in a clear, direct, and modern way. We combine education, visual tools, simulation, and community to help traders grow with more structure and confidence.",
+                seven_fold: "Proud managing partners of Seven Fold Wealth", social_title: "Follow Me", social_desc: "Daily educational content.",
+                res_title: "Free Resources", res_1: "Basic Guide", res_2: "Operating Checklist", res_3: "Market Hours", res_4: "Trading Journal",
+                footer_rights: "All rights reserved.", seven_fold_en: "Proud Managing Partners of Seven Fold Wealth", footer_privacy: "Privacy", footer_terms: "Terms",
+                modal_title: "Registration", modal_selected: "Selected class:", form_name: "Name", form_email: "Email", form_phone: "Phone", form_submit: "Confirm Reservation"
+            }
+        };
+
+        let currentLanguage = 'es';
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('currentLang').innerText = lang.toUpperCase();
+            document.getElementById('currentLangMobile').innerText = lang.toUpperCase();
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    if(key === 'hero_title') {
+                         el.innerHTML = translations[lang][key];
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
+                }
+            });
+        }
+
+        document.getElementById('langToggle').addEventListener('click', () => setLanguage(currentLanguage === 'es' ? 'en' : 'es'));
+        document.getElementById('langToggleMobile').addEventListener('click', () => setLanguage(currentLanguage === 'es' ? 'en' : 'es'));
+
+        // --- Mobile Menu ---
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // --- Simulator Logic (Mocked Frontend) ---
+        let simState = {
+            balance: 100000.00,
+            equity: 100000.00,
+            positions: [],
+            history: []
+        };
+
+        const mockPrices = { SPY: 512.45, QQQ: 445.20, AAPL: 173.50, TSLA: 175.22, BTCUSD: 64200.50 };
+        
+        // DOM Elements
+        const elAsset = document.getElementById('sim-asset');
+        const elPrice = document.getElementById('sim-price');
+        const elQty = document.getElementById('sim-qty');
+        const elTotal = document.getElementById('sim-total');
+        const elBalance = document.getElementById('sim-balance');
+        const elEquity = document.getElementById('sim-equity');
+        const elBp = document.getElementById('sim-bp');
+        const elPosBody = document.getElementById('sim-positions-body');
+        const elHistBody = document.getElementById('sim-history-body');
+
+        function updateSimUI() {
+            const asset = elAsset.value;
+            const price = mockPrices[asset];
+            const qty = parseInt(elQty.value) || 0;
+            const cost = price * qty;
+
+            elPrice.innerText = `$${price.toFixed(2)}`;
+            elTotal.innerText = `$${cost.toFixed(2)}`;
+            
+            let unrealizedPNL = 0;
+            simState.positions.forEach(p => {
+                const currentPrice = mockPrices[p.asset];
+                const diff = currentPrice - p.entryPrice;
+                p.pnl = p.type === 'long' ? diff * p.qty : -diff * p.qty;
+                unrealizedPNL += p.pnl;
+            });
+
+            simState.equity = simState.balance + unrealizedPNL;
+            const returnPct = ((simState.equity - 100000) / 100000) * 100;
+
+            elBalance.innerText = `$${simState.equity.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            elEquity.innerText = `$${simState.equity.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            elBp.innerText = `$${simState.balance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            
+            const pctEl = document.getElementById('sim-pnl-pct');
+            pctEl.innerText = `${returnPct >= 0 ? '+' : ''}${returnPct.toFixed(2)}%`;
+            pctEl.parentElement.className = `flex items-center text-sm mb-1 px-2 py-0.5 rounded ${returnPct >= 0 ? 'text-fintech-success bg-fintech-success/10' : 'text-fintech-danger bg-fintech-danger/10'}`;
+
+            const rankPnl = document.getElementById('rank-user-pnl');
+            if(rankPnl) {
+                rankPnl.innerText = `${returnPct >= 0 ? '+' : ''}${returnPct.toFixed(1)}%`;
+                rankPnl.className = `px-4 py-4 text-right font-mono ${returnPct >= 0 ? 'text-fintech-success' : 'text-fintech-danger'}`;
+            }
+
+            renderPositions();
+            renderHistory();
+        }
+
+        function renderPositions() {
+            if (simState.positions.length === 0) {
+                elPosBody.innerHTML = `<tr><td colspan="7" class="px-6 py-8 text-center text-slate-500 font-sans text-xs" data-i18n="sim_no_pos">${currentLanguage === 'es' ? 'No hay posiciones abiertas.' : 'No open positions.'}</td></tr>`;
+                return;
+            }
+            elPosBody.innerHTML = simState.positions.map(p => `
+                <tr class="hover:bg-white/[0.02] transition-colors">
+                    <td class="px-6 py-3 font-medium text-white">${p.asset}</td>
+                    <td class="px-6 py-3"><span class="px-2 py-0.5 rounded text-[10px] uppercase ${p.type === 'long' ? 'bg-fintech-success/20 text-fintech-success' : 'bg-fintech-danger/20 text-fintech-danger'}">${p.type}</span></td>
+                    <td class="px-6 py-3 text-right">${p.qty}</td>
+                    <td class="px-6 py-3 text-right text-slate-400">$${p.entryPrice.toFixed(2)}</td>
+                    <td class="px-6 py-3 text-right text-slate-300">$${mockPrices[p.asset].toFixed(2)}</td>
+                    <td class="px-6 py-3 text-right ${p.pnl >= 0 ? 'text-fintech-success' : 'text-fintech-danger'}">${p.pnl >= 0 ? '+' : ''}$${p.pnl.toFixed(2)}</td>
+                    <td class="px-6 py-3 text-center">
+                        <button onclick="closePosition('${p.id}')" class="text-xs bg-white/5 hover:bg-white/10 text-slate-300 px-3 py-1 rounded transition-colors">Cerrar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderHistory() {
+            if (simState.history.length === 0) {
+                elHistBody.innerHTML = `<tr><td colspan="6" class="px-6 py-6 text-center text-slate-500 font-sans text-xs" data-i18n="sim_no_history">${currentLanguage === 'es' ? 'No hay operaciones recientes.' : 'No recent trades.'}</td></tr>`;
+                return;
+            }
+            elHistBody.innerHTML = simState.history.slice().reverse().slice(0,5).map(h => `
+                <tr class="hover:bg-white/[0.02] transition-colors">
+                    <td class="px-6 py-3 text-slate-500 text-xs">${h.time}</td>
+                    <td class="px-6 py-3 font-medium text-white">${h.asset}</td>
+                    <td class="px-6 py-3"><span class="text-[10px] uppercase text-slate-400">${h.action}</span></td>
+                    <td class="px-6 py-3 text-right">${h.qty}</td>
+                    <td class="px-6 py-3 text-right text-slate-400">$${h.price.toFixed(2)}</td>
+                    <td class="px-6 py-3 text-right ${h.result ? (h.result.startsWith('+') ? 'text-fintech-success' : 'text-fintech-danger') : 'text-slate-500'}">${h.result || '--'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function executeTrade(type) {
+            const asset = elAsset.value;
+            const price = mockPrices[asset];
+            const qty = parseInt(elQty.value) || 0;
+            if (qty <= 0) return;
+            
+            const cost = price * qty;
+            if (cost > simState.balance) {
+                alert(currentLanguage === 'es' ? 'Fondos insuficientes.' : 'Insufficient funds.');
+                return;
+            }
+
+            simState.balance -= cost;
+            const id = Math.random().toString(36).substr(2, 9);
+            simState.positions.push({ id, asset, type, qty, entryPrice: price, pnl: 0 });
+            
+            simState.history.push({
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'}),
+                asset, action: `Open ${type}`, qty, price, result: null
+            });
+
+            updateSimUI();
+        }
+
+        window.closePosition = function(id) {
+            const index = simState.positions.findIndex(p => p.id === id);
+            if(index > -1) {
+                const p = simState.positions[index];
+                const currentPrice = mockPrices[p.asset];
+                const value = currentPrice * p.qty;
+                const diff = currentPrice - p.entryPrice;
+                const pnl = p.type === 'long' ? diff * p.qty : -diff * p.qty;
+                
+                simState.balance += (p.entryPrice * p.qty) + pnl;
+                simState.positions.splice(index, 1);
+                
+                simState.history.push({
+                    time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'}),
+                    asset: p.asset, action: `Close ${p.type}`, qty: p.qty, price: currentPrice, 
+                    result: `${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)}`
+                });
+                
+                updateSimUI();
+            }
+        }
+
+        document.getElementById('btn-buy').addEventListener('click', () => executeTrade('long'));
+        document.getElementById('btn-sell').addEventListener('click', () => executeTrade('short'));
+        
+        // Input listeners
+        elAsset.addEventListener('change', updateSimUI);
+        elQty.addEventListener('input', updateSimUI);
+
+        // Simulate price changes
+        setInterval(() => {
+            Object.keys(mockPrices).forEach(asset => {
+                const change = (Math.random() - 0.5) * (asset === 'BTCUSD' ? 50 : 0.5);
+                mockPrices[asset] = Math.max(0.01, mockPrices[asset] + change);
+            });
+            updateSimUI();
+            
+            // Subtle flash effect on price
+            elPrice.classList.add('text-white');
+            setTimeout(() => elPrice.classList.remove('text-white'), 200);
+        }, 3000);
+
+        // --- Modals ---
+        const modal = document.getElementById('bookingModal');
+        const modalContent = document.getElementById('modalContent');
+        const modalClassName = document.getElementById('modalClassName');
+
+        window.openModal = function(className) {
+            modalClassName.innerText = className;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            // Small delay for transition
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        window.closeModal = function() {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        // Set initial year
+        document.getElementById('year').innerText = new Date().getFullYear();
+
+        // Initialize UI
+        updateSimUI();
+
+    </script>
+
+</body></html>

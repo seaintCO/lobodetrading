@@ -409,15 +409,15 @@
           <!-- Top row -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div class="glass rounded-xl p-5">
-              <p class="text-xs text-slate-500 uppercase tracking-[0.18em] mb-2">Reference Market</p>
+              <p class="text-xs text-slate-500 uppercase tracking-[0.18em] mb-2">Lobos Sim Market</p>
               <div class="flex items-center justify-between gap-3">
                 <div>
                   <p id="selected-symbol-name" class="text-lg font-semibold text-white">US500</p>
-                  <p class="text-xs text-slate-500">Widget-friendly market reference</p>
+                  <p class="text-xs text-slate-500">Internal challenge market</p>
                 </div>
                 <div class="text-right">
                   <p id="sim-price" class="text-2xl font-mono text-lobos-accent">$5,250.26</p>
-                  <p class="text-xs text-slate-500">Reference price</p>
+                  <p class="text-xs text-slate-500">Lobos sim price</p>
                 </div>
               </div>
             </div>
@@ -488,7 +488,7 @@
                   </div>
 
                   <div class="flex justify-between items-center bg-black/30 border border-white/5 rounded-lg p-3">
-                    <span class="text-xs text-slate-400">Reference Price</span>
+                    <span class="text-xs text-slate-400">Lobos Sim Price</span>
                     <span id="order-price" class="font-mono text-lg text-lobos-accent">$---.--</span>
                   </div>
 
@@ -518,7 +518,7 @@
                   </div>
 
                   <p class="text-[11px] text-slate-500 leading-relaxed">
-                    Prices here are reference-market values used inside the Lobos simulated environment.
+                    Lobos sim prices are used for challenge tracking. The chart is a separate live market reference.
                   </p>
                 </div>
               </div>
@@ -533,7 +533,7 @@
                     <h3 id="selected-symbol-name-2" class="text-xl font-semibold text-white">US500</h3>
                   </div>
                   <div class="text-right">
-                    <p class="text-xs text-slate-500 uppercase tracking-[0.18em] mb-1">Reference Price</p>
+                    <p class="text-xs text-slate-500 uppercase tracking-[0.18em] mb-1">Lobos Sim Price</p>
                     <p id="portal-reference-price" class="text-2xl font-mono text-lobos-accent">$5,250.26</p>
                   </div>
                 </div>
@@ -541,7 +541,7 @@
                   <div class="bg-lobos-accent h-full rounded-full w-1/2"></div>
                 </div>
                 <p class="text-[11px] text-slate-500 mt-3">
-                  This is your Lobos reference market feed for the selected instrument.
+                  This is your Lobos internal challenge price for the selected instrument.
                 </p>
               </div>
 
@@ -815,7 +815,6 @@
     const elBp = document.getElementById('sim-bp');
     const elPosBody = document.getElementById('sim-positions-body');
     const elHistBody = document.getElementById('sim-history-body');
-    const elSelectedName = document.getElementById('selected-symbol-name');
 
     function syncPortalMarket() {
       const asset = elAsset.value;
@@ -823,8 +822,6 @@
 
       document.getElementById('selected-symbol-name').innerText = map.label;
       document.getElementById('selected-symbol-name-2').innerText = map.label;
-      document.getElementById('portal-reference-price').innerText =
-        `$${mockPrices[asset].toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
       updateSimUI();
 
@@ -841,12 +838,19 @@
       const qty = parseInt(elQty.value) || 0;
       const cost = price * qty;
 
-      elPrice.innerText = `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-      elOrderPrice.innerText = `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-      document.getElementById('portal-reference-price').innerText =
-        `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      const formattedPrice = `$${price.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })}`;
 
-      elTotal.innerText = `$${cost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      elPrice.innerText = formattedPrice;
+      elOrderPrice.innerText = formattedPrice;
+      document.getElementById('portal-reference-price').innerText = formattedPrice;
+
+      elTotal.innerText = `$${cost.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })}`;
 
       let unrealizedPNL = 0;
       simState.positions.forEach(p => {
@@ -859,9 +863,18 @@
       simState.equity = simState.balance + unrealizedPNL;
       const returnPct = ((simState.equity - 100000) / 100000) * 100;
 
-      elBalance.innerText = `$${simState.equity.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-      elEquity.innerText = `$${simState.equity.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-      elBp.innerText = `$${simState.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      elBalance.innerText = `$${simState.equity.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })}`;
+      elEquity.innerText = `$${simState.equity.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })}`;
+      elBp.innerText = `$${simState.balance.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })}`;
 
       const pctEl = document.getElementById('sim-pnl-pct');
       pctEl.innerText = `${returnPct >= 0 ? '+' : ''}${returnPct.toFixed(2)}%`;
@@ -990,6 +1003,7 @@
     }, 2500);
 
     document.getElementById('year').innerText = new Date().getFullYear();
+    elAsset.value = 'US500';
     updateSimUI();
   </script>
 </body>

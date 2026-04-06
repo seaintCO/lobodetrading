@@ -19,30 +19,20 @@
             mono: ['JetBrains Mono', 'monospace'],
           },
           colors: {
-            fintech: {
-              dark: '#05070d',
-              card: 'rgba(255,255,255,0.03)',
+            lobos: {
+              bg: '#05070b',
+              card: 'rgba(255,255,255,0.04)',
               border: 'rgba(255,255,255,0.08)',
-              accent: '#00f0ff',
-              accent2: '#3b82f6',
+              accent: '#00e5ff',
+              accent2: '#6ee7ff',
+              gold: '#f5c542',
               success: '#10b981',
-              danger: '#ef4444',
-              gold: '#fbbf24'
+              danger: '#ef4444'
             }
           },
-          animation: {
-            'grid-flow': 'gridFlow 20s linear infinite',
-            'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
-          },
-          keyframes: {
-            gridFlow: {
-              '0%': { transform: 'translateY(0px)' },
-              '100%': { transform: 'translateY(50px)' },
-            },
-            pulseGlow: {
-              '0%, 100%': { opacity: '0.45' },
-              '50%': { opacity: '0.8' },
-            }
+          boxShadow: {
+            glow: '0 0 30px rgba(0,229,255,0.12)',
+            gold: '0 0 24px rgba(245,197,66,0.16)'
           }
         }
       }
@@ -51,7 +41,7 @@
 
   <style>
     body {
-      background: #05070d;
+      background: #05070b;
       color: #f8fafc;
     }
 
@@ -59,52 +49,69 @@
       width: 8px;
       height: 8px;
     }
+
     ::-webkit-scrollbar-track {
-      background: #05070d;
+      background: #05070b;
     }
+
     ::-webkit-scrollbar-thumb {
-      background: #334155;
+      background: #1f2937;
       border-radius: 999px;
     }
+
     ::-webkit-scrollbar-thumb:hover {
-      background: #475569;
+      background: #334155;
     }
 
-    .bg-grid {
-      background-size: 48px 48px;
-      background-image:
-        linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-      mask-image: linear-gradient(to bottom, black 45%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to bottom, black 45%, transparent 100%);
-    }
-
-    .glass-card {
-      background: rgba(15, 23, 42, 0.52);
+    .glass {
+      background: rgba(255,255,255,0.03);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 8px 36px rgba(0,0,0,0.35);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+    }
+
+    .grid-bg {
+      background-size: 42px 42px;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0.12));
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0.12));
     }
 
     .glow-text {
-      text-shadow: 0 0 18px rgba(0, 240, 255, 0.25);
+      text-shadow: 0 0 22px rgba(0,229,255,0.22);
     }
 
-    .glow-border:hover {
-      box-shadow: 0 0 24px rgba(0, 240, 255, 0.18);
-      border-color: rgba(0, 240, 255, 0.28);
+    .gold-text {
+      text-shadow: 0 0 18px rgba(245,197,66,0.18);
     }
 
-    .line-glow {
-      box-shadow: 0 0 24px rgba(0, 240, 255, 0.25);
+    .hover-glow:hover {
+      box-shadow: 0 0 24px rgba(0,229,255,0.12);
+      border-color: rgba(0,229,255,0.28);
+    }
+
+    .recommended-ring {
+      box-shadow:
+        0 0 0 1px rgba(245,197,66,0.35),
+        0 0 28px rgba(245,197,66,0.10);
     }
   </style>
 </head>
-<body class="antialiased font-sans overflow-x-hidden relative selection:bg-fintech-accent selection:text-black">
 
-  <!-- Top Ticker -->
-  <div class="w-full h-10 bg-black border-b border-white/10 z-50 relative overflow-hidden">
+<body class="antialiased font-sans overflow-x-hidden relative selection:bg-lobos-accent selection:text-black">
+
+  <!-- Background -->
+  <div class="fixed inset-0 z-[-1] pointer-events-none">
+    <div class="absolute inset-0 grid-bg"></div>
+    <div class="absolute top-24 left-1/4 w-[420px] h-[420px] bg-lobos-accent/10 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-10 right-1/4 w-[520px] h-[520px] bg-blue-500/10 rounded-full blur-[160px]"></div>
+  </div>
+
+  <!-- Ticker -->
+  <div class="w-full h-10 bg-black/70 border-b border-white/10 overflow-hidden">
     <div class="tradingview-widget-container">
       <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
       {
@@ -127,371 +134,888 @@
   </div>
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 w-full glass-card border-b-0 border-x-0 border-t-0 border-b border-white/10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div onclick="switchView('home')" class="flex-shrink-0 flex items-center gap-3 cursor-pointer">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-fintech-accent to-fintech-accent2 flex items-center justify-center shadow-[0_0_18px_rgba(0,240,255,0.25)]">
-            <iconify-icon icon="solar:chart-square-linear" class="text-black text-xl"></iconify-icon>
-          </div>
-          <span class="font-semibold text-lg tracking-tight text-white glow-text">LOBOS FUTURES</span>
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-[#06080d]/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('home')">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-lobos-accent to-blue-500 flex items-center justify-center text-black font-semibold shadow-glow">
+          L
         </div>
-
-        <nav class="hidden md:flex space-x-8">
-          <a href="#" onclick="switchView('home'); return false;" class="text-sm text-slate-300 hover:text-white transition-colors">Home</a>
-          <a href="#" onclick="switchView('home', 'challenges'); return false;" class="text-sm text-slate-300 hover:text-white transition-colors">Challenges</a>
-          <a href="#" onclick="switchView('simulator'); return false;" class="text-sm text-slate-300 hover:text-white transition-colors">Portal</a>
-          <a href="#" onclick="switchView('home', 'payouts'); return false;" class="text-sm text-slate-300 hover:text-white transition-colors">Payouts</a>
-          <a href="#" onclick="switchView('simulator', 'ranking'); return false;" class="text-sm text-slate-300 hover:text-white transition-colors">Leaderboard</a>
-          <a href="#" onclick="switchView('home', 'rules'); return false;" class="text-sm text-slate-300 hover:text-white transition-colors">Rules</a>
-        </nav>
-
-        <div class="hidden md:flex items-center space-x-4">
-          <a href="#" onclick="switchView('home', 'challenges'); return false;" class="group relative inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-black bg-fintech-accent rounded-lg overflow-hidden transition-all hover:scale-105 shadow-[0_0_15px_rgba(0,240,255,0.25)]">
-            <span class="relative z-10 flex items-center gap-2">
-              <iconify-icon icon="solar:rocket-linear" class="text-lg"></iconify-icon>
-              <span>Start Challenge</span>
-            </span>
-          </a>
-        </div>
-
-        <div class="md:hidden flex items-center gap-4">
-          <button id="mobileMenuBtn" class="text-slate-300 hover:text-white p-2">
-            <iconify-icon icon="solar:hamburger-menu-linear" class="text-2xl"></iconify-icon>
-          </button>
+        <div class="leading-tight">
+          <div class="text-sm font-semibold tracking-[0.22em] text-white uppercase">Lobos Futures</div>
+          <div class="text-[10px] text-slate-500 uppercase tracking-[0.25em]">Futures Prop Firm</div>
         </div>
       </div>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm">
+        <a href="#" onclick="switchView('home'); return false;" class="text-slate-300 hover:text-white transition">Home</a>
+        <a href="#" onclick="scrollToSection('challenges'); return false;" class="text-slate-300 hover:text-white transition">Challenges</a>
+        <a href="#" onclick="switchView('portal'); return false;" class="text-slate-300 hover:text-white transition">Portal</a>
+        <a href="#" onclick="scrollToSection('rules'); return false;" class="text-slate-300 hover:text-white transition">Rules</a>
+        <a href="#" onclick="scrollToSection('payouts'); return false;" class="text-slate-300 hover:text-white transition">Payouts</a>
+      </nav>
+
+      <div class="hidden md:flex items-center gap-3">
+        <a href="#" onclick="switchView('portal'); return false;" class="px-4 py-2 rounded-lg border border-white/10 text-white bg-white/5 hover:bg-white/10 transition">
+          Trader Portal
+        </a>
+        <a href="#"
+           class="px-4 py-2 rounded-lg bg-lobos-accent text-black font-medium shadow-glow hover:scale-[1.02] transition"
+           onclick="alert('Connect this button to your Stripe link'); return false;">
+          Start Challenge
+        </a>
+      </div>
+
+      <button id="mobileMenuBtn" class="md:hidden text-white text-2xl">
+        <iconify-icon icon="solar:hamburger-menu-linear"></iconify-icon>
+      </button>
     </div>
 
-    <div id="mobileMenu" class="hidden md:hidden glass-card border-t border-white/10 absolute w-full left-0">
-      <div class="px-4 pt-2 pb-6 space-y-1">
-        <a href="#" onclick="switchView('home'); return false;" class="block px-3 py-2 rounded-md text-base text-slate-300 hover:text-white hover:bg-white/5">Home</a>
-        <a href="#" onclick="switchView('home', 'challenges'); return false;" class="block px-3 py-2 rounded-md text-base text-slate-300 hover:text-white hover:bg-white/5">Challenges</a>
-        <a href="#" onclick="switchView('simulator'); return false;" class="block px-3 py-2 rounded-md text-base text-slate-300 hover:text-white hover:bg-white/5">Portal</a>
-        <a href="#" onclick="switchView('home', 'payouts'); return false;" class="block px-3 py-2 rounded-md text-base text-slate-300 hover:text-white hover:bg-white/5">Payouts</a>
-        <a href="#" onclick="switchView('home', 'rules'); return false;" class="block px-3 py-2 rounded-md text-base text-slate-300 hover:text-white hover:bg-white/5">Rules</a>
-        <a href="#" onclick="switchView('home', 'challenges'); return false;" class="block w-full text-center mt-4 px-4 py-2 text-sm font-medium text-black bg-fintech-accent rounded-lg">Start Challenge</a>
+    <div id="mobileMenu" class="hidden md:hidden border-t border-white/10 bg-black/80 backdrop-blur-xl">
+      <div class="px-4 py-4 space-y-2">
+        <a href="#" onclick="switchView('home'); return false;" class="block text-slate-300 hover:text-white py-2">Home</a>
+        <a href="#" onclick="switchView('home'); setTimeout(()=>scrollToSection('challenges'), 100); return false;" class="block text-slate-300 hover:text-white py-2">Challenges</a>
+        <a href="#" onclick="switchView('portal'); return false;" class="block text-slate-300 hover:text-white py-2">Portal</a>
+        <a href="#" onclick="switchView('home'); setTimeout(()=>scrollToSection('rules'), 100); return false;" class="block text-slate-300 hover:text-white py-2">Rules</a>
+        <a href="#" onclick="switchView('home'); setTimeout(()=>scrollToSection('payouts'), 100); return false;" class="block text-slate-300 hover:text-white py-2">Payouts</a>
+        <a href="#"
+           class="block mt-3 text-center px-4 py-3 rounded-lg bg-lobos-accent text-black font-medium"
+           onclick="alert('Connect this button to your Stripe link'); return false;">
+          Start Challenge
+        </a>
       </div>
     </div>
   </header>
-
-  <!-- Background -->
-  <div class="fixed inset-0 z-[-1] pointer-events-none">
-    <div class="absolute inset-0 bg-grid animate-grid-flow"></div>
-    <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-fintech-accent/10 rounded-full blur-[120px] mix-blend-screen"></div>
-    <div class="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[150px] mix-blend-screen"></div>
-  </div>
 
   <main>
 
     <!-- HOME VIEW -->
     <div id="view-home">
+
       <!-- Hero -->
-      <section id="inicio" class="relative pt-20 pb-28 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-8">
-            <span class="flex w-2 h-2 rounded-full bg-fintech-accent animate-pulse"></span>
-            <span class="text-xs font-medium text-slate-300 tracking-wide uppercase">Futures Prop Firm</span>
+      <section class="pt-20 pb-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 mb-8">
+            <span class="w-2 h-2 rounded-full bg-lobos-accent animate-pulse"></span>
+            <span class="text-xs uppercase tracking-[0.25em] text-slate-300">Elite Futures Evaluation</span>
           </div>
 
-          <h1 class="text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight text-white mb-6 leading-[1.05]">
+          <h1 class="text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight text-white leading-[1.05] mb-6">
             Built for disciplined <br class="hidden sm:block">
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-fintech-accent to-fintech-accent2 glow-text">futures traders.</span>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-lobos-accent to-blue-400 glow-text">futures traders.</span>
           </h1>
 
-          <p class="max-w-3xl mx-auto text-base sm:text-lg font-light text-slate-400 mb-10 leading-relaxed">
-            Prove consistency, pass evaluation, and earn funded progression inside a premium futures challenge environment built for serious traders.
+          <p class="max-w-3xl mx-auto text-base sm:text-lg text-slate-400 font-light leading-relaxed mb-10">
+            Prove consistency. Pass evaluation. Earn funded progression inside a premium futures challenge environment built around structure, risk control, and performance.
           </p>
 
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#" onclick="switchView('home', 'challenges'); return false;" class="w-full sm:w-auto group relative inline-flex items-center justify-center px-6 py-3 text-base font-medium text-black bg-fintech-accent rounded-xl overflow-hidden transition-all hover:scale-105 shadow-[0_0_20px_rgba(0,240,255,0.18)]">
-              <span class="relative z-10 flex items-center gap-2">
-                <iconify-icon icon="solar:rocket-linear" class="text-xl"></iconify-icon>
-                <span>Start Challenge</span>
-              </span>
+          <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="#"
+               onclick="scrollToSection('challenges'); return false;"
+               class="px-6 py-3 rounded-xl bg-lobos-accent text-black font-medium shadow-glow hover:scale-[1.02] transition">
+              View Challenges
             </a>
-            <a href="#" onclick="switchView('home', 'rules'); return false;" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors">
-              <span>Read Rules</span>
+            <a href="#"
+               onclick="scrollToSection('rules'); return false;"
+               class="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition">
+              Read Rules
             </a>
           </div>
 
-          <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 max-w-4xl mx-auto border-t border-white/10 pt-10">
+          <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto border-t border-white/10 pt-10">
             <div class="flex flex-col items-center gap-2">
-              <iconify-icon icon="solar:clipboard-check-linear" class="text-2xl text-fintech-accent"></iconify-icon>
-              <span class="text-xs text-slate-400">Structured Evaluations</span>
+              <iconify-icon icon="solar:chart-square-linear" class="text-2xl text-lobos-accent"></iconify-icon>
+              <span class="text-xs text-slate-400 uppercase tracking-[0.18em]">Futures Only</span>
             </div>
             <div class="flex flex-col items-center gap-2">
-              <iconify-icon icon="solar:wallet-money-linear" class="text-2xl text-fintech-accent"></iconify-icon>
-              <span class="text-xs text-slate-400">Funded Progression</span>
+              <iconify-icon icon="solar:shield-check-linear" class="text-2xl text-lobos-accent"></iconify-icon>
+              <span class="text-xs text-slate-400 uppercase tracking-[0.18em]">Clear Rules</span>
             </div>
             <div class="flex flex-col items-center gap-2">
-              <iconify-icon icon="solar:graph-up-linear" class="text-2xl text-fintech-accent"></iconify-icon>
-              <span class="text-xs text-slate-400">Challenge Terminal</span>
+              <iconify-icon icon="solar:wallet-money-linear" class="text-2xl text-lobos-accent"></iconify-icon>
+              <span class="text-xs text-slate-400 uppercase tracking-[0.18em]">Funded Progression</span>
             </div>
             <div class="flex flex-col items-center gap-2">
-              <iconify-icon icon="solar:crown-star-linear" class="text-2xl text-fintech-accent"></iconify-icon>
-              <span class="text-xs text-slate-400">Lobos Live Path</span>
+              <iconify-icon icon="solar:crown-star-linear" class="text-2xl text-lobos-accent"></iconify-icon>
+              <span class="text-xs text-slate-400 uppercase tracking-[0.18em]">Lobos Live</span>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Challenge Cards -->
-      <section id="challenges" class="py-20 border-t border-white/5 bg-slate-900/30">
+      <!-- How it works -->
+      <section class="py-16 border-t border-white/5 bg-white/[0.01]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center mb-12">
-            <h2 class="text-3xl font-semibold tracking-tight text-white mb-3">Choose Your Challenge</h2>
-            <p class="text-slate-400 font-light max-w-2xl mx-auto">
-              Start with the account size that fits your path. Prove consistency and earn your progression through Lobos.
-            </p>
+          <div class="mb-10">
+            <h2 class="text-3xl font-semibold tracking-tight text-white">How Lobos Works</h2>
+            <p class="text-slate-400 mt-3 max-w-2xl">A simple path built for traders who want structure, evaluation, and funded progression.</p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- 50K -->
-            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-fintech-accent/40 transition-colors duration-300 glow-border">
-              <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-4 text-fintech-accent">
-                <iconify-icon icon="solar:wallet-linear" class="text-2xl"></iconify-icon>
+            <div class="glass rounded-2xl p-6 hover-glow transition">
+              <div class="w-12 h-12 rounded-xl bg-lobos-accent/10 flex items-center justify-center text-lobos-accent mb-4">
+                <iconify-icon icon="solar:rocket-linear" class="text-2xl"></iconify-icon>
               </div>
-              <h3 class="text-lg font-medium text-white mb-1">LOBOS 50K</h3>
-              <p class="text-sm text-slate-400 mb-6 flex-1">
-                50K simulated futures evaluation built for disciplined traders entering the Lobos challenge environment.
-              </p>
-              <div class="text-3xl font-semibold text-white mb-6">$49<span class="text-sm text-slate-500 font-normal">/month</span></div>
-              <div class="space-y-3 mb-6 text-sm text-slate-300">
-                <div class="flex justify-between"><span>Profit Target</span><span class="font-mono">$3,000</span></div>
-                <div class="flex justify-between"><span>Max Position</span><span class="font-mono">5 Contracts</span></div>
-                <div class="flex justify-between"><span>Max Loss Limit</span><span class="font-mono">$2,000</span></div>
-                <div class="flex justify-between"><span>Activation Fee</span><span class="font-mono">$149</span></div>
-              </div>
-              <button onclick="openModal('LOBOS 50K Challenge')" class="w-full py-3 bg-white/5 hover:bg-white/10 text-white rounded-lg text-sm font-medium transition-colors border border-white/10">
-                Start Challenge
-              </button>
+              <h3 class="text-lg font-medium text-white mb-2">1. Start Evaluation</h3>
+              <p class="text-sm text-slate-400">Choose your challenge size and begin your futures evaluation under Lobos rules.</p>
             </div>
 
-            <!-- 100K -->
-            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-fintech-accent/50 transition-colors duration-300 glow-border relative overflow-hidden border border-fintech-accent/25">
-              <div class="absolute top-0 right-0 bg-fintech-accent text-black text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase">Recommended</div>
-              <div class="w-12 h-12 rounded-xl bg-fintech-accent/10 flex items-center justify-center mb-4 text-fintech-accent">
-                <iconify-icon icon="solar:chart-line-up-linear" class="text-2xl"></iconify-icon>
+            <div class="glass rounded-2xl p-6 hover-glow transition">
+              <div class="w-12 h-12 rounded-xl bg-lobos-gold/10 flex items-center justify-center text-lobos-gold mb-4">
+                <iconify-icon icon="solar:target-linear" class="text-2xl"></iconify-icon>
               </div>
-              <h3 class="text-lg font-medium text-white mb-1">LOBOS 100K</h3>
-              <p class="text-sm text-slate-400 mb-6 flex-1">
-                Our recommended evaluation tier with premium sizing and clean progression toward funded status.
-              </p>
-              <div class="text-3xl font-semibold text-white mb-6">$99<span class="text-sm text-slate-500 font-normal">/month</span></div>
-              <div class="space-y-3 mb-6 text-sm text-slate-300">
-                <div class="flex justify-between"><span>Profit Target</span><span class="font-mono">$6,000</span></div>
-                <div class="flex justify-between"><span>Max Position</span><span class="font-mono">10 Contracts</span></div>
-                <div class="flex justify-between"><span>Max Loss Limit</span><span class="font-mono">$3,000</span></div>
-                <div class="flex justify-between"><span>Activation Fee</span><span class="font-mono">$149</span></div>
-              </div>
-              <button onclick="openModal('LOBOS 100K Challenge')" class="w-full py-3 bg-fintech-accent text-black hover:bg-[#00d4e0] rounded-lg text-sm font-medium transition-colors shadow-[0_0_12px_rgba(0,240,255,0.2)]">
-                Start Challenge
-              </button>
+              <h3 class="text-lg font-medium text-white mb-2">2. Prove Consistency</h3>
+              <p class="text-sm text-slate-400">Hit your target, manage risk, and stay within the challenge parameters.</p>
             </div>
 
-            <!-- 150K -->
-            <div class="glass-card rounded-2xl p-6 flex flex-col hover:border-fintech-gold/40 transition-colors duration-300 glow-border">
-              <div class="w-12 h-12 rounded-xl bg-fintech-gold/10 flex items-center justify-center mb-4 text-fintech-gold">
-                <iconify-icon icon="solar:crown-star-linear" class="text-2xl"></iconify-icon>
+            <div class="glass rounded-2xl p-6 hover-glow transition">
+              <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-4">
+                <iconify-icon icon="solar:cup-star-linear" class="text-2xl"></iconify-icon>
               </div>
-              <h3 class="text-lg font-medium text-white mb-1">LOBOS 150K</h3>
-              <p class="text-sm text-slate-400 mb-6 flex-1">
-                Higher-size evaluation built for experienced traders looking for a bigger futures challenge account.
-              </p>
-              <div class="text-3xl font-semibold text-white mb-6">$149<span class="text-sm text-slate-500 font-normal">/month</span></div>
-              <div class="space-y-3 mb-6 text-sm text-slate-300">
-                <div class="flex justify-between"><span>Profit Target</span><span class="font-mono">$9,000</span></div>
-                <div class="flex justify-between"><span>Max Position</span><span class="font-mono">15 Contracts</span></div>
-                <div class="flex justify-between"><span>Max Loss Limit</span><span class="font-mono">$4,500</span></div>
-                <div class="flex justify-between"><span>Activation Fee</span><span class="font-mono">$149</span></div>
-              </div>
-              <button onclick="openModal('LOBOS 150K Challenge')" class="w-full py-3 bg-white/5 hover:bg-white/10 text-fintech-gold border border-fintech-gold/30 rounded-lg text-sm font-medium transition-colors">
-                Start Challenge
-              </button>
+              <h3 class="text-lg font-medium text-white mb-2">3. Earn Progression</h3>
+              <p class="text-sm text-slate-400">Pass into funded status and work toward Lobos Live through disciplined performance.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Live Chart -->
-      <section class="py-12 border-t border-white/5 bg-slate-900/50">
+      <!-- Challenges -->
+      <section id="challenges" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center gap-3 mb-6">
-            <iconify-icon icon="solar:graph-up-linear" class="text-2xl text-fintech-accent"></iconify-icon>
-            <h2 class="text-2xl font-semibold tracking-tight text-white">Live Futures Chart</h2>
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-semibold tracking-tight text-white mb-3">Choose Your Challenge</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto">Every Lobos challenge is designed to reward discipline, consistency, and risk control.</p>
           </div>
 
-          <div class="glass-card rounded-2xl p-1 overflow-hidden h-[500px] sm:h-[600px] w-full relative">
-            <div class="absolute inset-0 bg-slate-900 flex items-center justify-center z-0">
-              <iconify-icon icon="solar:spinner-linear" class="text-4xl text-fintech-accent animate-spin"></iconify-icon>
-            </div>
-            <div class="relative z-10 w-full h-full">
-              <div class="tradingview-widget-container h-full">
-                <div id="tradingview_chart" class="h-full"></div>
-                <script src="https://s3.tradingview.com/tv.js"></script>
-                <script>
-                  new TradingView.widget({
-                    "autosize": true,
-                    "symbol": "CME_MINI:NQ1!",
-                    "interval": "5",
-                    "timezone": "America/New_York",
-                    "theme": "dark",
-                    "style": "1",
-                    "locale": "en",
-                    "toolbar_bg": "#0f172a",
-                    "enable_publishing": false,
-                    "backgroundColor": "rgba(5, 7, 13, 1)",
-                    "hide_side_toolbar": false,
-                    "allow_symbol_change": true,
-                    "studies": ["MACD@tv-basicstudies", "RSI@tv-basicstudies", "MASimple@tv-basicstudies"],
-                    "container_id": "tradingview_chart"
-                  });
-                </script>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-      <!-- Market Grid -->
-      <section class="py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="flex flex-col">
-              <div class="flex items-center gap-3 mb-4">
-                <iconify-icon icon="solar:global-linear" class="text-xl text-fintech-accent"></iconify-icon>
-                <h3 class="text-lg font-medium tracking-tight">Market Overview</h3>
-              </div>
-              <div class="glass-card rounded-xl overflow-hidden h-[400px]">
-                <div class="tradingview-widget-container h-full">
-                  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
-                  {
-                    "colorTheme": "dark",
-                    "dateRange": "12M",
-                    "showChart": true,
-                    "locale": "en",
-                    "width": "100%",
-                    "height": "100%",
-                    "isTransparent": true,
-                    "tabs": [
-                      {
-                        "title": "Futures",
-                        "symbols": [
-                          {"s": "CME_MINI:ES1!", "d": "E-mini S&P"},
-                          {"s": "CME_MINI:NQ1!", "d": "E-mini Nasdaq"},
-                          {"s": "CBOT:YM1!", "d": "Dow"},
-                          {"s": "CME:RTY1!", "d": "Russell"}
-                        ]
-                      },
-                      {
-                        "title": "Commodities",
-                        "symbols": [
-                          {"s": "NYMEX:CL1!", "d": "Crude Oil"},
-                          {"s": "COMEX:GC1!", "d": "Gold"}
-                        ]
-                      }
-                    ]
-                  }
-                  </script>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex flex-col">
-              <div class="flex items-center gap-3 mb-4">
-                <iconify-icon icon="solar:ruler-pen-linear" class="text-xl text-fintech-accent"></iconify-icon>
-                <h3 class="text-lg font-medium tracking-tight">Technical Analysis</h3>
-              </div>
-              <div class="glass-card rounded-xl overflow-hidden h-[400px]">
-                <div class="tradingview-widget-container h-full">
-                  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
-                  {
-                    "interval": "5m",
-                    "width": "100%",
-                    "isTransparent": true,
-                    "height": "100%",
-                    "symbol": "CME_MINI:NQ1!",
-                    "showIntervalTabs": true,
-                    "locale": "en",
-                    "colorTheme": "dark"
-                  }
-                  </script>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Payout CTA -->
-      <section id="payouts" class="py-16">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="bg-gradient-to-br from-fintech-accent/10 to-[#05070d] border border-fintech-accent/20 rounded-3xl p-8 sm:p-12 relative overflow-hidden text-center">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 text-fintech-accent/10 rotate-12 pointer-events-none">
-              <iconify-icon icon="solar:wallet-money-linear" class="text-[200px]"></iconify-icon>
-            </div>
-
-            <div class="relative z-10 flex flex-col items-center">
-              <div class="w-16 h-16 bg-fintech-accent rounded-2xl flex items-center justify-center text-black mb-6 shadow-[0_0_30px_rgba(0,240,255,0.3)]">
-                <iconify-icon icon="solar:cup-star-linear" class="text-4xl"></iconify-icon>
-              </div>
-              <h2 class="text-3xl font-semibold tracking-tight text-white mb-4">Pass. Progress. Get Paid.</h2>
-              <p class="text-slate-300 max-w-2xl mx-auto mb-8 font-light leading-relaxed">
-                Start your futures evaluation, earn funded progression, and move toward Lobos Live through a disciplined rules-based system.
-              </p>
-
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl mb-8">
-                <div class="bg-black/30 px-4 py-4 rounded-xl border border-white/5">
-                  <div class="text-xs uppercase tracking-wider text-slate-500 mb-1">Step 1</div>
-                  <div class="text-white font-medium">Evaluation</div>
-                </div>
-                <div class="bg-black/30 px-4 py-4 rounded-xl border border-white/5">
-                  <div class="text-xs uppercase tracking-wider text-slate-500 mb-1">Step 2</div>
-                  <div class="text-white font-medium">Funded</div>
-                </div>
-                <div class="bg-black/30 px-4 py-4 rounded-xl border border-white/5">
-                  <div class="text-xs uppercase tracking-wider text-slate-500 mb-1">Step 3</div>
-                  <div class="text-white font-medium">Lobos Live</div>
-                </div>
+            <!-- 50k -->
+            <div class="glass rounded-2xl p-6 flex flex-col hover-glow transition">
+              <div class="mb-6">
+                <p class="text-xs uppercase tracking-[0.24em] text-slate-500 mb-2">Evaluation Account</p>
+                <h3 class="text-2xl font-semibold text-white mb-1">LOBOS 50K</h3>
+                <p class="text-slate-400 text-sm">Starter futures evaluation account.</p>
               </div>
 
-              <a href="#" onclick="switchView('home', 'challenges'); return false;" class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium text-black bg-fintech-accent rounded-xl hover:bg-[#00d4e0] transition-all hover:scale-105 shadow-[0_0_20px_rgba(0,240,255,0.22)] gap-2">
-                <iconify-icon icon="solar:rocket-linear" class="text-xl"></iconify-icon>
-                <span>Start Your Challenge</span>
+              <div class="mb-6">
+                <div class="text-4xl font-semibold text-white">$49<span class="text-base text-slate-500 font-normal">/month</span></div>
+              </div>
+
+              <div class="space-y-3 text-sm text-slate-300 mb-8">
+                <div class="flex justify-between"><span>Profit Target</span><span class="font-mono text-white">$3,000</span></div>
+                <div class="flex justify-between"><span>Max Position</span><span class="font-mono text-white">5 Contracts</span></div>
+                <div class="flex justify-between"><span>Max Loss Limit</span><span class="font-mono text-white">$2,000</span></div>
+                <div class="flex justify-between"><span>Activation Fee</span><span class="font-mono text-white">$149</span></div>
+              </div>
+
+              <a href="#"
+                 onclick="alert('Connect Lobos 50K Stripe link here'); return false;"
+                 class="mt-auto text-center px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition">
+                Start Challenge
               </a>
             </div>
+
+            <!-- 100k -->
+            <div class="glass rounded-2xl p-6 flex flex-col recommended-ring border border-lobos-gold/30 relative">
+              <div class="absolute top-0 right-0 rounded-bl-xl rounded-tr-2xl bg-lobos-gold text-black text-[10px] font-bold px-3 py-1 uppercase tracking-[0.18em]">
+                Recommended
+              </div>
+
+              <div class="mb-6">
+                <p class="text-xs uppercase tracking-[0.24em] text-slate-500 mb-2">Evaluation Account</p>
+                <h3 class="text-2xl font-semibold text-white mb-1">LOBOS 100K</h3>
+                <p class="text-slate-400 text-sm">Balanced size with premium progression.</p>
+              </div>
+
+              <div class="mb-6">
+                <div class="text-4xl font-semibold text-white">$99<span class="text-base text-slate-500 font-normal">/month</span></div>
+              </div>
+
+              <div class="space-y-3 text-sm text-slate-300 mb-8">
+                <div class="flex justify-between"><span>Profit Target</span><span class="font-mono text-white">$6,000</span></div>
+                <div class="flex justify-between"><span>Max Position</span><span class="font-mono text-white">10 Contracts</span></div>
+                <div class="flex justify-between"><span>Max Loss Limit</span><span class="font-mono text-white">$3,000</span></div>
+                <div class="flex justify-between"><span>Activation Fee</span><span class="font-mono text-white">$149</span></div>
+              </div>
+
+              <a href="#"
+                 onclick="alert('Connect Lobos 100K Stripe link here'); return false;"
+                 class="mt-auto text-center px-4 py-3 rounded-xl bg-lobos-accent text-black font-medium hover:scale-[1.01] transition shadow-glow">
+                Start Challenge
+              </a>
+            </div>
+
+            <!-- 150k -->
+            <div class="glass rounded-2xl p-6 flex flex-col hover-glow transition">
+              <div class="mb-6">
+                <p class="text-xs uppercase tracking-[0.24em] text-slate-500 mb-2">Evaluation Account</p>
+                <h3 class="text-2xl font-semibold text-white mb-1">LOBOS 150K</h3>
+                <p class="text-slate-400 text-sm">For higher-capacity traders seeking scale.</p>
+              </div>
+
+              <div class="mb-6">
+                <div class="text-4xl font-semibold text-white">$149<span class="text-base text-slate-500 font-normal">/month</span></div>
+              </div>
+
+              <div class="space-y-3 text-sm text-slate-300 mb-8">
+                <div class="flex justify-between"><span>Profit Target</span><span class="font-mono text-white">$9,000</span></div>
+                <div class="flex justify-between"><span>Max Position</span><span class="font-mono text-white">15 Contracts</span></div>
+                <div class="flex justify-between"><span>Max Loss Limit</span><span class="font-mono text-white">$4,500</span></div>
+                <div class="flex justify-between"><span>Activation Fee</span><span class="font-mono text-white">$149</span></div>
+              </div>
+
+              <a href="#"
+                 onclick="alert('Connect Lobos 150K Stripe link here'); return false;"
+                 class="mt-auto text-center px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition">
+                Start Challenge
+              </a>
+            </div>
+
           </div>
         </div>
       </section>
 
-      <!-- About -->
-      <section class="py-16 border-t border-white/5 bg-slate-900/20">
+      <!-- Main chart -->
+      <section class="py-12 border-t border-white/5 bg-white/[0.01]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 class="text-2xl font-semibold tracking-tight text-white mb-4">About Lobos Futures</h2>
-              <p class="text-slate-400 font-light leading-relaxed mb-6">
-                Lobos Futures is a premium futures prop firm experience built around evaluation, funded progression, clear rules, and a high-performance trader environment.
-              </p>
-              <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-300">
-                <iconify-icon icon="solar:shield-check-linear" class="text-fintech-accent"></iconify-icon>
-                <span>Evaluation → Funded → Lobos Live</span>
+          <div class="flex items-center gap-3 mb-6">
+            <iconify-icon icon="solar:graph-up-linear" class="text-2xl text-lobos-accent"></iconify-icon>
+            <h2 class="text-2xl font-semibold tracking-tight text-white">Market View</h2>
+          </div>
+
+          <div class="glass rounded-2xl p-1 overflow-hidden h-[500px] sm:h-[620px]">
+            <div class="tradingview-widget-container h-full">
+              <div id="tradingview_chart" class="h-full"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rules -->
+      <section id="rules" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="mb-10">
+            <h2 class="text-3xl font-semibold tracking-tight text-white mb-3">Lobos Challenge Rules</h2>
+            <p class="text-slate-400 max-w-3xl">
+              Lobos Futures is built for disciplined futures traders. Every challenge account must follow the rules below to remain active and eligible for progression.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="glass rounded-2xl p-6">
+              <h3 class="text-lg font-medium text-white mb-4">Progression Model</h3>
+              <div class="space-y-3 text-sm text-slate-300">
+                <div><span class="text-lobos-accent font-medium">Evaluation:</span> Hit your target while staying inside the rules.</div>
+                <div><span class="text-lobos-accent font-medium">Funded:</span> Payout-eligible simulated account after passing.</div>
+                <div><span class="text-lobos-accent font-medium">Lobos Live:</span> Advanced internal simulated tier for proven traders.</div>
               </div>
             </div>
 
-            <div class="glass-card rounded-2xl p-8 flex flex-col items-center text-center">
-              <div class="w-20 h-20 rounded-full bg-slate-800 border-2 border-fintech-accent p-1 mb-4">
-                <div class="w-full h-full bg-slate-700 rounded-full flex items-center justify-center text-2xl">🐺</div>
+            <div class="glass rounded-2xl p-6">
+              <h3 class="text-lg font-medium text-white mb-4">General Rules</h3>
+              <ul class="space-y-3 text-sm text-slate-300">
+                <li>• Futures only</li>
+                <li>• No account sharing</li>
+                <li>• No abusive trading behavior</li>
+                <li>• All accounts subject to review</li>
+                <li>• Additional verification may be required before payout</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <div class="glass rounded-2xl p-6">
+              <h4 class="text-white font-medium mb-4">LOBOS 50K</h4>
+              <div class="space-y-2 text-sm text-slate-300">
+                <div class="flex justify-between"><span>Profit Target</span><span class="font-mono">$3,000</span></div>
+                <div class="flex justify-between"><span>Max Loss</span><span class="font-mono">$2,000</span></div>
+                <div class="flex justify-between"><span>Max Position</span><span class="font-mono">5 Contracts</span></div>
               </div>
-              <h3 class="text-lg font-medium text-white">Built for serious traders</h3>
-              <p class="text-sm text-slate-500 mb-6">Clear structure. Strong branding. Premium challenge environment.</p>
-              <div class="flex gap-4">
-                <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition-all">
-                  <iconify-icon icon="mdi:instagram" class="text-xl"></iconify-icon>
+            </div>
+
+            <div class="glass rounded-2xl p-6">
+              <h4 class="text-white font-medium mb-4">LOBOS 100K</h4>
+              <div class="space-y-2 text-sm text-slate-300">
+                <div class="flex justify-between"><span>Profit Target</span><span class="font-mono">$6,000</span></div>
+                <div class="flex justify-between"><span>Max Loss</span><span class="font-mono">$3,000</span></div>
+                <div class="flex justify-between"><span>Max Position</span><span class="font-mono">10 Contracts</span></div>
+              </div>
+            </div>
+
+            <div class="glass rounded-2xl p-6">
+              <h4 class="text-white font-medium mb-4">LOBOS 150K</h4>
+              <div class="space-y-2 text-sm text-slate-300">
+                <div class="flex justify-between"><span>Profit Target</span><span class="font-mono">$9,000</span></div>
+                <div class="flex justify-between"><span>Max Loss</span><span class="font-mono">$4,500</span></div>
+                <div class="flex justify-between"><span>Max Position</span><span class="font-mono">15 Contracts</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Payouts -->
+      <section id="payouts" class="py-16 border-t border-white/5 bg-white/[0.01]">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="glass rounded-3xl p-8 sm:p-12 text-center">
+            <div class="w-16 h-16 bg-lobos-gold/10 rounded-2xl flex items-center justify-center text-lobos-gold mx-auto mb-6 shadow-gold">
+              <iconify-icon icon="solar:wallet-money-linear" class="text-4xl"></iconify-icon>
+            </div>
+            <h2 class="text-3xl font-semibold tracking-tight text-white mb-4">Pass. Progress. Get Paid.</h2>
+            <p class="text-slate-300 max-w-2xl mx-auto mb-8 leading-relaxed">
+              Eligible funded traders may request payouts after meeting performance, rule-compliance, and verification standards within Lobos Futures.
+            </p>
+            <a href="#"
+               onclick="alert('Connect payout request form here'); return false;"
+               class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium text-black bg-lobos-accent rounded-xl shadow-glow hover:scale-[1.02] transition">
+              Request Payout Info
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- PORTAL VIEW -->
+    <div id="view-portal" class="hidden">
+      <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          <div class="mb-10">
+            <h1 class="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-2">
+              <span class="text-lobos-accent glow-text">LOBOS</span> PORTAL
+            </h1>
+            <p class="text-slate-400">Your challenge environment. Your progression. Your path through Lobos.</p>
+          </div>
+
+          <!-- account overview -->
+          <div class="glass rounded-2xl p-6 md:p-8 relative overflow-hidden mb-8">
+            <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-lobos-accent/60 to-transparent"></div>
+
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+              <div>
+                <p class="text-xs uppercase tracking-[0.22em] text-slate-500 mb-1">Account Size</p>
+                <h2 class="text-4xl font-semibold text-white">$100,000</h2>
+              </div>
+              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/40 border border-white/10">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span class="text-xs uppercase tracking-[0.18em] text-white">Status: Active</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t border-white/5">
+              <div>
+                <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-1">Phase</p>
+                <p class="text-sm text-white font-medium">Evaluation</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-1">Profit Target</p>
+                <p class="text-sm text-lobos-gold font-medium">$6,000</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-1">Max Loss Limit</p>
+                <p class="text-sm text-red-400 font-medium">$3,000</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-1">Max Position</p>
+                <p class="text-sm text-white font-medium">10 Contracts</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- stats -->
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+            <div class="glass rounded-xl p-5">
+              <p class="text-xs text-slate-500 mb-3 uppercase tracking-[0.18em]">Current Progress</p>
+              <p class="text-xl font-semibold text-white">$2,450.00</p>
+              <div class="w-full bg-black/30 h-1.5 rounded-full mt-3 overflow-hidden">
+                <div class="bg-lobos-accent h-full rounded-full" style="width: 40%"></div>
+              </div>
+            </div>
+
+            <div class="glass rounded-xl p-5">
+              <p class="text-xs text-slate-500 mb-3 uppercase tracking-[0.18em]">Remaining to Target</p>
+              <p class="text-xl font-semibold text-white">$3,550.00</p>
+            </div>
+
+            <div class="glass rounded-xl p-5">
+              <p class="text-xs text-slate-500 mb-3 uppercase tracking-[0.18em]">Risk Remaining</p>
+              <p class="text-xl font-semibold text-white">$3,000.00</p>
+            </div>
+
+            <div class="glass rounded-xl p-5">
+              <p class="text-xs text-slate-500 mb-3 uppercase tracking-[0.18em]">Trading Days</p>
+              <p class="text-xl font-semibold text-white">4 <span class="text-sm text-slate-500 font-normal">/ 15</span></p>
+            </div>
+
+            <div class="glass rounded-xl p-5">
+              <p class="text-xs text-slate-500 mb-3 uppercase tracking-[0.18em]">Winning Days</p>
+              <p class="text-xl font-semibold text-white">3</p>
+            </div>
+          </div>
+
+          <!-- challenge terminal -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- order panel -->
+            <div class="lg:col-span-4 space-y-6">
+              <div class="glass rounded-2xl p-6">
+                <h3 class="text-sm font-medium text-white mb-4 flex items-center gap-2">
+                  <iconify-icon icon="solar:wallet-money-linear" class="text-lobos-accent"></iconify-icon>
+                  Challenge Account
+                </h3>
+
+                <div class="space-y-4">
+                  <div>
+                    <p class="text-xs text-slate-500 uppercase tracking-[0.18em] mb-1">Virtual Balance</p>
+                    <div class="flex items-end gap-3">
+                      <span class="text-3xl font-mono text-white" id="sim-balance">$100,000.00</span>
+                      <span id="sim-pnl-pct" class="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">+0.00%</span>
+                    </div>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-black/25 border border-white/5 rounded-lg p-3">
+                      <p class="text-[10px] uppercase tracking-[0.14em] text-slate-500 mb-1">Equity</p>
+                      <p class="text-sm font-mono text-white" id="sim-equity">$100,000.00</p>
+                    </div>
+                    <div class="bg-black/25 border border-white/5 rounded-lg p-3">
+                      <p class="text-[10px] uppercase tracking-[0.14em] text-slate-500 mb-1">Buying Power</p>
+                      <p class="text-sm font-mono text-white" id="sim-bp">$100,000.00</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="glass rounded-2xl p-6">
+                <h3 class="text-sm font-medium text-white mb-4 flex items-center gap-2">
+                  <iconify-icon icon="solar:transfer-horizontal-linear" class="text-lobos-accent"></iconify-icon>
+                  New Simulated Order
+                </h3>
+
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-xs text-slate-400 mb-1">Symbol</label>
+                    <select id="sim-asset" class="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-lobos-accent">
+                      <option value="ES">ES</option>
+                      <option value="NQ">NQ</option>
+                      <option value="YM">YM</option>
+                      <option value="RTY">RTY</option>
+                      <option value="CL">CL</option>
+                      <option value="GC">GC</option>
+                    </select>
+                  </div>
+
+                  <div class="flex justify-between items-center bg-black/30 border border-white/5 rounded-lg p-3">
+                    <span class="text-xs text-slate-400">Current Price</span>
+                    <span class="font-mono text-lg text-lobos-accent" id="sim-price">$---.--</span>
+                  </div>
+
+                  <div>
+                    <label class="block text-xs text-slate-400 mb-1">Contracts</label>
+                    <div class="flex items-center gap-2">
+                      <button class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 text-white"
+                              onclick="document.getElementById('sim-qty').value=Math.max(1,parseInt(document.getElementById('sim-qty').value||1)-1); updateSimUI();">-</button>
+                      <input type="number" id="sim-qty" value="1" min="1" class="flex-1 h-10 rounded-lg bg-black/30 border border-white/10 text-white text-center font-mono outline-none focus:border-lobos-accent">
+                      <button class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 text-white"
+                              onclick="document.getElementById('sim-qty').value=parseInt(document.getElementById('sim-qty').value||1)+1; updateSimUI();">+</button>
+                    </div>
+                  </div>
+
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-500">Estimated Cost</span>
+                    <span class="font-mono text-white" id="sim-total">$---.--</span>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-3 pt-1">
+                    <button id="btn-buy" class="py-3 rounded-lg bg-emerald-500 text-white font-medium hover:brightness-110 transition">
+                      Buy (Long)
+                    </button>
+                    <button id="btn-sell" class="py-3 rounded-lg bg-red-500 text-white font-medium hover:brightness-110 transition">
+                      Sell (Short)
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- chart + positions -->
+            <div class="lg:col-span-8 space-y-6">
+              <div class="glass rounded-2xl p-1 overflow-hidden h-[420px]">
+                <div class="tradingview-widget-container h-full">
+                  <div id="portal_chart" class="h-full"></div>
+                </div>
+              </div>
+
+              <div class="glass rounded-2xl overflow-hidden">
+                <div class="px-6 py-4 border-b border-white/5 bg-white/[0.02]">
+                  <h3 class="text-sm font-medium text-white">Open Positions</h3>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="w-full text-left">
+                    <thead>
+                      <tr class="bg-black/20 text-[10px] uppercase tracking-[0.18em] text-slate-500 font-mono">
+                        <th class="px-6 py-3 font-normal">Asset</th>
+                        <th class="px-6 py-3 font-normal">Type</th>
+                        <th class="px-6 py-3 font-normal text-right">Qty</th>
+                        <th class="px-6 py-3 font-normal text-right">Entry</th>
+                        <th class="px-6 py-3 font-normal text-right">Current</th>
+                        <th class="px-6 py-3 font-normal text-right">P&L</th>
+                        <th class="px-6 py-3 font-normal text-center">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="sim-positions-body" class="divide-y divide-white/5 text-sm font-mono text-slate-300">
+                      <tr><td colspan="7" class="px-6 py-8 text-center text-slate-500 font-sans text-xs">No open positions.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="glass rounded-2xl overflow-hidden">
+                <div class="px-6 py-4 border-b border-white/5 bg-white/[0.02]">
+                  <h3 class="text-sm font-medium text-white">Trade History</h3>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="w-full text-left">
+                    <thead>
+                      <tr class="bg-black/20 text-[10px] uppercase tracking-[0.18em] text-slate-500 font-mono">
+                        <th class="px-6 py-3 font-normal">Time</th>
+                        <th class="px-6 py-3 font-normal">Asset</th>
+                        <th class="px-6 py-3 font-normal">Action</th>
+                        <th class="px-6 py-3 font-normal text-right">Qty</th>
+                        <th class="px-6 py-3 font-normal text-right">Price</th>
+                        <th class="px-6 py-3 font-normal text-right">Result</th>
+                      </tr>
+                    </thead>
+                    <tbody id="sim-history-body" class="divide-y divide-white/5 text-sm font-mono text-slate-300">
+                      <tr><td colspan="6" class="px-6 py-6 text-center text-slate-500 font-sans text-xs">No recent trades.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- progression -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+            <div class="glass rounded-2xl p-6">
+              <h3 class="text-lg font-medium text-white mb-4">Progression & Payout Status</h3>
+              <div class="space-y-4">
+                <div class="flex items-center justify-between pb-4 border-b border-white/5">
+                  <div>
+                    <p class="text-sm text-white font-medium">Evaluation Status</p>
+                    <p class="text-xs text-slate-500">Phase 1 in progress</p>
+                  </div>
+                  <span class="px-2.5 py-1 rounded text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20">In Progress</span>
+                </div>
+                <div class="flex items-center justify-between pb-4 border-b border-white/5">
+                  <div>
+                    <p class="text-sm text-white font-medium">Funded Eligibility</p>
+                    <p class="text-xs text-slate-500">Requires passing evaluation</p>
+                  </div>
+                  <span class="px-2.5 py-1 rounded text-xs bg-white/5 text-slate-400 border border-white/10">Pending</span>
+                </div>
+                <div class="flex items-center justify-between pb-4 border-b border-white/5">
+                  <div>
+                    <p class="text-sm text-white font-medium">Payout Eligibility</p>
+                    <p class="text-xs text-slate-500">Funded account required</p>
+                  </div>
+                  <span class="px-2.5 py-1 rounded text-xs bg-white/5 text-slate-400 border border-white/10">Locked</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm text-white font-medium">Lobos Live Status</p>
+                    <p class="text-xs text-slate-500">Advanced internal tier</p>
+                  </div>
+                  <span class="px-2.5 py-1 rounded text-xs bg-white/5 text-slate-400 border border-white/10">Locked</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass rounded-2xl p-6 flex flex-col justify-between">
+              <div>
+                <h3 class="text-lg font-medium text-white mb-2">Need Help?</h3>
+                <p class="text-sm text-slate-400 mb-6">
+                  Questions about your challenge, rules, progression, or account status? Use support inside Lobos.
+                </p>
+              </div>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <a href="mailto:support@lobosfutures.com" class="px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-center hover:bg-white/10 transition">
+                  Contact Support
                 </a>
-                <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition-all">
-                  <iconify-icon icon="ic:baseline-discord" class="text-xl"></iconify-icon>
+                <a href="#"
+                   onclick="alert('Connect payout form here'); return false;"
+                   class="px-4 py-3 rounded-lg bg-lobos-accent text-black font-medium text-center hover:scale-[1.01] transition">
+                  Request Payout
                 </a>
-                <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition-all">
-                  <
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <footer class="border-t border-white/10 bg-black/60 pt-10 pb-8 mt-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
+      <div class="flex items-center gap-2">
+        <iconify-icon icon="solar:chart-square-linear" class="text-lobos-accent text-xl"></iconify-icon>
+        <span class="text-slate-300 font-medium">LOBOS FUTURES</span>
+      </div>
+      <div>© <span id="year"></span> Lobos Futures. All rights reserved.</div>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-slate-300">Privacy</a>
+        <a href="#" class="hover:text-slate-300">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://s3.tradingview.com/tv.js"></script>
+
+  <script>
+    function switchView(viewName) {
+      const homeView = document.getElementById('view-home');
+      const portalView = document.getElementById('view-portal');
+
+      if (viewName === 'home') {
+        homeView.classList.remove('hidden');
+        portalView.classList.add('hidden');
+      } else if (viewName === 'portal') {
+        homeView.classList.add('hidden');
+        portalView.classList.remove('hidden');
+      }
+
+      document.getElementById('mobileMenu').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function scrollToSection(id) {
+      switchView('home');
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 80);
+    }
+
+    // Mobile menu
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+
+    // TradingView main chart
+    new TradingView.widget({
+      autosize: true,
+      symbol: "CME_MINI:NQ1!",
+      interval: "5",
+      timezone: "America/New_York",
+      theme: "dark",
+      style: "1",
+      locale: "en",
+      toolbar_bg: "#05070b",
+      enable_publishing: false,
+      backgroundColor: "rgba(5,7,11,1)",
+      hide_side_toolbar: false,
+      allow_symbol_change: true,
+      studies: ["MACD@tv-basicstudies", "RSI@tv-basicstudies", "MASimple@tv-basicstudies"],
+      container_id: "tradingview_chart"
+    });
+
+    // TradingView portal chart
+    new TradingView.widget({
+      autosize: true,
+      symbol: "CME_MINI:ES1!",
+      interval: "5",
+      timezone: "America/New_York",
+      theme: "dark",
+      style: "1",
+      locale: "en",
+      toolbar_bg: "#05070b",
+      enable_publishing: false,
+      backgroundColor: "rgba(5,7,11,1)",
+      hide_side_toolbar: false,
+      allow_symbol_change: true,
+      container_id: "portal_chart"
+    });
+
+    // Simulator state
+    let simState = {
+      balance: 100000.00,
+      equity: 100000.00,
+      positions: [],
+      history: []
+    };
+
+    const mockPrices = {
+      ES: 5221.25,
+      NQ: 18342.50,
+      YM: 39210.00,
+      RTY: 2086.80,
+      CL: 81.42,
+      GC: 2389.10
+    };
+
+    const elAsset = document.getElementById('sim-asset');
+    const elPrice = document.getElementById('sim-price');
+    const elQty = document.getElementById('sim-qty');
+    const elTotal = document.getElementById('sim-total');
+    const elBalance = document.getElementById('sim-balance');
+    const elEquity = document.getElementById('sim-equity');
+    const elBp = document.getElementById('sim-bp');
+    const elPosBody = document.getElementById('sim-positions-body');
+    const elHistBody = document.getElementById('sim-history-body');
+
+    function updateSimUI() {
+      const asset = elAsset.value;
+      const price = mockPrices[asset];
+      const qty = parseInt(elQty.value) || 0;
+      const cost = price * qty;
+
+      elPrice.innerText = `$${price.toFixed(2)}`;
+      elTotal.innerText = `$${cost.toFixed(2)}`;
+
+      let unrealizedPNL = 0;
+      simState.positions.forEach(p => {
+        const currentPrice = mockPrices[p.asset];
+        const diff = currentPrice - p.entryPrice;
+        p.pnl = p.type === 'long' ? diff * p.qty : -diff * p.qty;
+        unrealizedPNL += p.pnl;
+      });
+
+      simState.equity = simState.balance + unrealizedPNL;
+      const returnPct = ((simState.equity - 100000) / 100000) * 100;
+
+      elBalance.innerText = `$${simState.equity.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      elEquity.innerText = `$${simState.equity.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      elBp.innerText = `$${simState.balance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+      const pctEl = document.getElementById('sim-pnl-pct');
+      pctEl.innerText = `${returnPct >= 0 ? '+' : ''}${returnPct.toFixed(2)}%`;
+      pctEl.className = `text-xs px-2 py-1 rounded ${returnPct >= 0 ? 'text-emerald-400 bg-emerald-500/10' : 'text-red-400 bg-red-500/10'}`;
+
+      renderPositions();
+      renderHistory();
+    }
+
+    function renderPositions() {
+      if (simState.positions.length === 0) {
+        elPosBody.innerHTML = `<tr><td colspan="7" class="px-6 py-8 text-center text-slate-500 font-sans text-xs">No open positions.</td></tr>`;
+        return;
+      }
+
+      elPosBody.innerHTML = simState.positions.map(p => `
+        <tr class="hover:bg-white/[0.02] transition-colors">
+          <td class="px-6 py-3 font-medium text-white">${p.asset}</td>
+          <td class="px-6 py-3">
+            <span class="px-2 py-0.5 rounded text-[10px] uppercase ${p.type === 'long' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}">
+              ${p.type}
+            </span>
+          </td>
+          <td class="px-6 py-3 text-right">${p.qty}</td>
+          <td class="px-6 py-3 text-right text-slate-400">$${p.entryPrice.toFixed(2)}</td>
+          <td class="px-6 py-3 text-right text-slate-300">$${mockPrices[p.asset].toFixed(2)}</td>
+          <td class="px-6 py-3 text-right ${p.pnl >= 0 ? 'text-emerald-400' : 'text-red-400'}">${p.pnl >= 0 ? '+' : ''}$${p.pnl.toFixed(2)}</td>
+          <td class="px-6 py-3 text-center">
+            <button onclick="closePosition('${p.id}')" class="text-xs bg-white/5 hover:bg-white/10 text-slate-300 px-3 py-1 rounded transition-colors">Close</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderHistory() {
+      if (simState.history.length === 0) {
+        elHistBody.innerHTML = `<tr><td colspan="6" class="px-6 py-6 text-center text-slate-500 font-sans text-xs">No recent trades.</td></tr>`;
+        return;
+      }
+
+      elHistBody.innerHTML = simState.history.slice().reverse().slice(0, 8).map(h => `
+        <tr class="hover:bg-white/[0.02] transition-colors">
+          <td class="px-6 py-3 text-slate-500 text-xs">${h.time}</td>
+          <td class="px-6 py-3 font-medium text-white">${h.asset}</td>
+          <td class="px-6 py-3 text-slate-400">${h.action}</td>
+          <td class="px-6 py-3 text-right">${h.qty}</td>
+          <td class="px-6 py-3 text-right text-slate-400">$${h.price.toFixed(2)}</td>
+          <td class="px-6 py-3 text-right ${h.result ? (h.result.startsWith('+') ? 'text-emerald-400' : 'text-red-400') : 'text-slate-500'}">${h.result || '--'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function executeTrade(type) {
+      const asset = elAsset.value;
+      const price = mockPrices[asset];
+      const qty = parseInt(elQty.value) || 0;
+
+      if (qty <= 0) return;
+
+      const cost = price * qty;
+      if (cost > simState.balance) {
+        alert('Insufficient virtual buying power.');
+        return;
+      }
+
+      simState.balance -= cost;
+      const id = Math.random().toString(36).slice(2, 10);
+
+      simState.positions.push({
+        id,
+        asset,
+        type,
+        qty,
+        entryPrice: price,
+        pnl: 0
+      });
+
+      simState.history.push({
+        time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'}),
+        asset,
+        action: `Open ${type}`,
+        qty,
+        price,
+        result: null
+      });
+
+      updateSimUI();
+    }
+
+    window.closePosition = function(id) {
+      const index = simState.positions.findIndex(p => p.id === id);
+      if (index > -1) {
+        const p = simState.positions[index];
+        const currentPrice = mockPrices[p.asset];
+        const diff = currentPrice - p.entryPrice;
+        const pnl = p.type === 'long' ? diff * p.qty : -diff * p.qty;
+
+        simState.balance += (p.entryPrice * p.qty) + pnl;
+        simState.positions.splice(index, 1);
+
+        simState.history.push({
+          time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'}),
+          asset: p.asset,
+          action: `Close ${p.type}`,
+          qty: p.qty,
+          price: currentPrice,
+          result: `${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)}`
+        });
+
+        updateSimUI();
+      }
+    };
+
+    document.getElementById('btn-buy').addEventListener('click', () => executeTrade('long'));
+    document.getElementById('btn-sell').addEventListener('click', () => executeTrade('short'));
+    elAsset.addEventListener('change', updateSimUI);
+    elQty.addEventListener('input', updateSimUI);
+
+    setInterval(() => {
+      Object.keys(mockPrices).forEach(asset => {
+        const volatility = asset === 'CL' ? 0.35 : asset === 'GC' ? 1.2 : 8;
+        const step = (Math.random() - 0.5) * volatility;
+        mockPrices[asset] = Math.max(0.01, mockPrices[asset] + step);
+      });
+      updateSimUI();
+    }, 2500);
+
+    document.getElementById('year').innerText = new Date().getFullYear();
+    updateSimUI();
+  </script>
+</body>
+</html>

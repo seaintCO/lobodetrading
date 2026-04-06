@@ -84,10 +84,6 @@
       text-shadow: 0 0 22px rgba(0,229,255,0.22);
     }
 
-    .gold-text {
-      text-shadow: 0 0 18px rgba(245,197,66,0.18);
-    }
-
     .hover-glow:hover {
       box-shadow: 0 0 24px rgba(0,229,255,0.12);
       border-color: rgba(0,229,255,0.28);
@@ -97,6 +93,10 @@
       box-shadow:
         0 0 0 1px rgba(245,197,66,0.35),
         0 0 28px rgba(245,197,66,0.10);
+    }
+
+    .tv-widget-shell iframe {
+      border-radius: 14px;
     }
   </style>
 </head>
@@ -110,18 +110,18 @@
     <div class="absolute bottom-10 right-1/4 w-[520px] h-[520px] bg-blue-500/10 rounded-full blur-[160px]"></div>
   </div>
 
-  <!-- Ticker -->
+  <!-- Top market tape -->
   <div class="w-full h-10 bg-black/70 border-b border-white/10 overflow-hidden">
     <div class="tradingview-widget-container">
       <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
       {
         "symbols": [
-          {"proName": "CME_MINI:ES1!", "title": "E-mini S&P"},
-          {"proName": "CME_MINI:NQ1!", "title": "E-mini Nasdaq"},
-          {"proName": "CBOT:YM1!", "title": "Dow Futures"},
-          {"proName": "CME:RTY1!", "title": "Russell Futures"},
-          {"proName": "NYMEX:CL1!", "title": "Crude Oil"},
-          {"proName": "COMEX:GC1!", "title": "Gold Futures"}
+          {"proName": "TVC:US500", "title": "US500"},
+          {"proName": "TVC:US100", "title": "US100"},
+          {"proName": "TVC:DJI", "title": "US30"},
+          {"proName": "TVC:USOIL", "title": "USOIL"},
+          {"proName": "TVC:GOLD", "title": "GOLD"},
+          {"proName": "BITSTAMP:BTCUSD", "title": "BTCUSD"}
         ],
         "showSymbolLogo": true,
         "colorTheme": "dark",
@@ -142,7 +142,7 @@
         </div>
         <div class="leading-tight">
           <div class="text-sm font-semibold tracking-[0.22em] text-white uppercase">Lobos Futures</div>
-          <div class="text-[10px] text-slate-500 uppercase tracking-[0.25em]">Futures Prop Firm</div>
+          <div class="text-[10px] text-slate-500 uppercase tracking-[0.25em]">Prop Firm Dashboard</div>
         </div>
       </div>
 
@@ -177,21 +177,13 @@
         <a href="#" onclick="switchView('portal'); return false;" class="block text-slate-300 hover:text-white py-2">Portal</a>
         <a href="#" onclick="switchView('home'); setTimeout(()=>scrollToSection('rules'), 100); return false;" class="block text-slate-300 hover:text-white py-2">Rules</a>
         <a href="#" onclick="switchView('home'); setTimeout(()=>scrollToSection('payouts'), 100); return false;" class="block text-slate-300 hover:text-white py-2">Payouts</a>
-        <a href="#"
-           class="block mt-3 text-center px-4 py-3 rounded-lg bg-lobos-accent text-black font-medium"
-           onclick="alert('Connect this button to your Stripe link'); return false;">
-          Start Challenge
-        </a>
       </div>
     </div>
   </header>
 
   <main>
-
     <!-- HOME VIEW -->
     <div id="view-home">
-
-      <!-- Hero -->
       <section class="pt-20 pb-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 mb-8">
@@ -201,202 +193,104 @@
 
           <h1 class="text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight text-white leading-[1.05] mb-6">
             Built for disciplined <br class="hidden sm:block">
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-lobos-accent to-blue-400 glow-text">futures traders.</span>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-lobos-accent to-blue-400 glow-text">market operators.</span>
           </h1>
 
           <p class="max-w-3xl mx-auto text-base sm:text-lg text-slate-400 font-light leading-relaxed mb-10">
-            Prove consistency. Pass evaluation. Earn funded progression inside a premium futures challenge environment built around structure, risk control, and performance.
+            Prove consistency. Pass evaluation. Earn funded progression inside a premium black-tech prop firm environment.
           </p>
 
           <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="#"
-               onclick="scrollToSection('challenges'); return false;"
-               class="px-6 py-3 rounded-xl bg-lobos-accent text-black font-medium shadow-glow hover:scale-[1.02] transition">
+            <a href="#" onclick="scrollToSection('challenges'); return false;" class="px-6 py-3 rounded-xl bg-lobos-accent text-black font-medium shadow-glow hover:scale-[1.02] transition">
               View Challenges
             </a>
-            <a href="#"
-               onclick="scrollToSection('rules'); return false;"
-               class="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition">
+            <a href="#" onclick="scrollToSection('rules'); return false;" class="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition">
               Read Rules
             </a>
           </div>
-
-          <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto border-t border-white/10 pt-10">
-            <div class="flex flex-col items-center gap-2">
-              <iconify-icon icon="solar:chart-square-linear" class="text-2xl text-lobos-accent"></iconify-icon>
-              <span class="text-xs text-slate-400 uppercase tracking-[0.18em]">Futures Only</span>
-            </div>
-            <div class="flex flex-col items-center gap-2">
-              <iconify-icon icon="solar:shield-check-linear" class="text-2xl text-lobos-accent"></iconify-icon>
-              <span class="text-xs text-slate-400 uppercase tracking-[0.18em]">Clear Rules</span>
-            </div>
-            <div class="flex flex-col items-center gap-2">
-              <iconify-icon icon="solar:wallet-money-linear" class="text-2xl text-lobos-accent"></iconify-icon>
-              <span class="text-xs text-slate-400 uppercase tracking-[0.18em]">Funded Progression</span>
-            </div>
-            <div class="flex flex-col items-center gap-2">
-              <iconify-icon icon="solar:crown-star-linear" class="text-2xl text-lobos-accent"></iconify-icon>
-              <span class="text-xs text-slate-400 uppercase tracking-[0.18em]">Lobos Live</span>
-            </div>
-          </div>
         </div>
       </section>
 
-      <!-- How it works -->
-      <section class="py-16 border-t border-white/5 bg-white/[0.01]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="mb-10">
-            <h2 class="text-3xl font-semibold tracking-tight text-white">How Lobos Works</h2>
-            <p class="text-slate-400 mt-3 max-w-2xl">A simple path built for traders who want structure, evaluation, and funded progression.</p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="glass rounded-2xl p-6 hover-glow transition">
-              <div class="w-12 h-12 rounded-xl bg-lobos-accent/10 flex items-center justify-center text-lobos-accent mb-4">
-                <iconify-icon icon="solar:rocket-linear" class="text-2xl"></iconify-icon>
-              </div>
-              <h3 class="text-lg font-medium text-white mb-2">1. Start Evaluation</h3>
-              <p class="text-sm text-slate-400">Choose your challenge size and begin your futures evaluation under Lobos rules.</p>
-            </div>
-
-            <div class="glass rounded-2xl p-6 hover-glow transition">
-              <div class="w-12 h-12 rounded-xl bg-lobos-gold/10 flex items-center justify-center text-lobos-gold mb-4">
-                <iconify-icon icon="solar:target-linear" class="text-2xl"></iconify-icon>
-              </div>
-              <h3 class="text-lg font-medium text-white mb-2">2. Prove Consistency</h3>
-              <p class="text-sm text-slate-400">Hit your target, manage risk, and stay within the challenge parameters.</p>
-            </div>
-
-            <div class="glass rounded-2xl p-6 hover-glow transition">
-              <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-4">
-                <iconify-icon icon="solar:cup-star-linear" class="text-2xl"></iconify-icon>
-              </div>
-              <h3 class="text-lg font-medium text-white mb-2">3. Earn Progression</h3>
-              <p class="text-sm text-slate-400">Pass into funded status and work toward Lobos Live through disciplined performance.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Challenges -->
       <section id="challenges" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-12">
             <h2 class="text-3xl font-semibold tracking-tight text-white mb-3">Choose Your Challenge</h2>
-            <p class="text-slate-400 max-w-2xl mx-auto">Every Lobos challenge is designed to reward discipline, consistency, and risk control.</p>
+            <p class="text-slate-400 max-w-2xl mx-auto">Three clean paths. One disciplined progression model.</p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            <!-- 50k -->
             <div class="glass rounded-2xl p-6 flex flex-col hover-glow transition">
               <div class="mb-6">
                 <p class="text-xs uppercase tracking-[0.24em] text-slate-500 mb-2">Evaluation Account</p>
                 <h3 class="text-2xl font-semibold text-white mb-1">LOBOS 50K</h3>
-                <p class="text-slate-400 text-sm">Starter futures evaluation account.</p>
+                <p class="text-slate-400 text-sm">Starter challenge for disciplined traders.</p>
               </div>
-
               <div class="mb-6">
                 <div class="text-4xl font-semibold text-white">$49<span class="text-base text-slate-500 font-normal">/month</span></div>
               </div>
-
               <div class="space-y-3 text-sm text-slate-300 mb-8">
                 <div class="flex justify-between"><span>Profit Target</span><span class="font-mono text-white">$3,000</span></div>
                 <div class="flex justify-between"><span>Max Position</span><span class="font-mono text-white">5 Contracts</span></div>
                 <div class="flex justify-between"><span>Max Loss Limit</span><span class="font-mono text-white">$2,000</span></div>
                 <div class="flex justify-between"><span>Activation Fee</span><span class="font-mono text-white">$149</span></div>
               </div>
-
-              <a href="#"
-                 onclick="alert('Connect Lobos 50K Stripe link here'); return false;"
-                 class="mt-auto text-center px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition">
+              <a href="#" onclick="alert('Connect Lobos 50K Stripe link here'); return false;" class="mt-auto text-center px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition">
                 Start Challenge
               </a>
             </div>
 
-            <!-- 100k -->
             <div class="glass rounded-2xl p-6 flex flex-col recommended-ring border border-lobos-gold/30 relative">
               <div class="absolute top-0 right-0 rounded-bl-xl rounded-tr-2xl bg-lobos-gold text-black text-[10px] font-bold px-3 py-1 uppercase tracking-[0.18em]">
                 Recommended
               </div>
-
               <div class="mb-6">
                 <p class="text-xs uppercase tracking-[0.24em] text-slate-500 mb-2">Evaluation Account</p>
                 <h3 class="text-2xl font-semibold text-white mb-1">LOBOS 100K</h3>
                 <p class="text-slate-400 text-sm">Balanced size with premium progression.</p>
               </div>
-
               <div class="mb-6">
                 <div class="text-4xl font-semibold text-white">$99<span class="text-base text-slate-500 font-normal">/month</span></div>
               </div>
-
               <div class="space-y-3 text-sm text-slate-300 mb-8">
                 <div class="flex justify-between"><span>Profit Target</span><span class="font-mono text-white">$6,000</span></div>
                 <div class="flex justify-between"><span>Max Position</span><span class="font-mono text-white">10 Contracts</span></div>
                 <div class="flex justify-between"><span>Max Loss Limit</span><span class="font-mono text-white">$3,000</span></div>
                 <div class="flex justify-between"><span>Activation Fee</span><span class="font-mono text-white">$149</span></div>
               </div>
-
-              <a href="#"
-                 onclick="alert('Connect Lobos 100K Stripe link here'); return false;"
-                 class="mt-auto text-center px-4 py-3 rounded-xl bg-lobos-accent text-black font-medium hover:scale-[1.01] transition shadow-glow">
+              <a href="#" onclick="alert('Connect Lobos 100K Stripe link here'); return false;" class="mt-auto text-center px-4 py-3 rounded-xl bg-lobos-accent text-black font-medium hover:scale-[1.01] transition shadow-glow">
                 Start Challenge
               </a>
             </div>
 
-            <!-- 150k -->
             <div class="glass rounded-2xl p-6 flex flex-col hover-glow transition">
               <div class="mb-6">
                 <p class="text-xs uppercase tracking-[0.24em] text-slate-500 mb-2">Evaluation Account</p>
                 <h3 class="text-2xl font-semibold text-white mb-1">LOBOS 150K</h3>
-                <p class="text-slate-400 text-sm">For higher-capacity traders seeking scale.</p>
+                <p class="text-slate-400 text-sm">For bigger traders looking to scale.</p>
               </div>
-
               <div class="mb-6">
                 <div class="text-4xl font-semibold text-white">$149<span class="text-base text-slate-500 font-normal">/month</span></div>
               </div>
-
               <div class="space-y-3 text-sm text-slate-300 mb-8">
                 <div class="flex justify-between"><span>Profit Target</span><span class="font-mono text-white">$9,000</span></div>
                 <div class="flex justify-between"><span>Max Position</span><span class="font-mono text-white">15 Contracts</span></div>
                 <div class="flex justify-between"><span>Max Loss Limit</span><span class="font-mono text-white">$4,500</span></div>
                 <div class="flex justify-between"><span>Activation Fee</span><span class="font-mono text-white">$149</span></div>
               </div>
-
-              <a href="#"
-                 onclick="alert('Connect Lobos 150K Stripe link here'); return false;"
-                 class="mt-auto text-center px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition">
+              <a href="#" onclick="alert('Connect Lobos 150K Stripe link here'); return false;" class="mt-auto text-center px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition">
                 Start Challenge
               </a>
             </div>
-
           </div>
         </div>
       </section>
 
-      <!-- Main chart -->
-      <section class="py-12 border-t border-white/5 bg-white/[0.01]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center gap-3 mb-6">
-            <iconify-icon icon="solar:graph-up-linear" class="text-2xl text-lobos-accent"></iconify-icon>
-            <h2 class="text-2xl font-semibold tracking-tight text-white">Market View</h2>
-          </div>
-
-          <div class="glass rounded-2xl p-1 overflow-hidden h-[500px] sm:h-[620px]">
-            <div class="tradingview-widget-container h-full">
-              <div id="tradingview_chart" class="h-full"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Rules -->
       <section id="rules" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="mb-10">
             <h2 class="text-3xl font-semibold tracking-tight text-white mb-3">Lobos Challenge Rules</h2>
             <p class="text-slate-400 max-w-3xl">
-              Lobos Futures is built for disciplined futures traders. Every challenge account must follow the rules below to remain active and eligible for progression.
+              Every Lobos account must stay inside the evaluation rules to remain active and eligible for progression.
             </p>
           </div>
 
@@ -404,56 +298,26 @@
             <div class="glass rounded-2xl p-6">
               <h3 class="text-lg font-medium text-white mb-4">Progression Model</h3>
               <div class="space-y-3 text-sm text-slate-300">
-                <div><span class="text-lobos-accent font-medium">Evaluation:</span> Hit your target while staying inside the rules.</div>
-                <div><span class="text-lobos-accent font-medium">Funded:</span> Payout-eligible simulated account after passing.</div>
-                <div><span class="text-lobos-accent font-medium">Lobos Live:</span> Advanced internal simulated tier for proven traders.</div>
+                <div><span class="text-lobos-accent font-medium">Evaluation:</span> hit your target while following the rules.</div>
+                <div><span class="text-lobos-accent font-medium">Funded:</span> payout-eligible simulated environment.</div>
+                <div><span class="text-lobos-accent font-medium">Lobos Live:</span> advanced internal simulated tier.</div>
               </div>
             </div>
 
             <div class="glass rounded-2xl p-6">
               <h3 class="text-lg font-medium text-white mb-4">General Rules</h3>
               <ul class="space-y-3 text-sm text-slate-300">
-                <li>• Futures only</li>
                 <li>• No account sharing</li>
-                <li>• No abusive trading behavior</li>
+                <li>• No abusive behavior</li>
                 <li>• All accounts subject to review</li>
                 <li>• Additional verification may be required before payout</li>
+                <li>• Simulated dashboard environment</li>
               </ul>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-            <div class="glass rounded-2xl p-6">
-              <h4 class="text-white font-medium mb-4">LOBOS 50K</h4>
-              <div class="space-y-2 text-sm text-slate-300">
-                <div class="flex justify-between"><span>Profit Target</span><span class="font-mono">$3,000</span></div>
-                <div class="flex justify-between"><span>Max Loss</span><span class="font-mono">$2,000</span></div>
-                <div class="flex justify-between"><span>Max Position</span><span class="font-mono">5 Contracts</span></div>
-              </div>
-            </div>
-
-            <div class="glass rounded-2xl p-6">
-              <h4 class="text-white font-medium mb-4">LOBOS 100K</h4>
-              <div class="space-y-2 text-sm text-slate-300">
-                <div class="flex justify-between"><span>Profit Target</span><span class="font-mono">$6,000</span></div>
-                <div class="flex justify-between"><span>Max Loss</span><span class="font-mono">$3,000</span></div>
-                <div class="flex justify-between"><span>Max Position</span><span class="font-mono">10 Contracts</span></div>
-              </div>
-            </div>
-
-            <div class="glass rounded-2xl p-6">
-              <h4 class="text-white font-medium mb-4">LOBOS 150K</h4>
-              <div class="space-y-2 text-sm text-slate-300">
-                <div class="flex justify-between"><span>Profit Target</span><span class="font-mono">$9,000</span></div>
-                <div class="flex justify-between"><span>Max Loss</span><span class="font-mono">$4,500</span></div>
-                <div class="flex justify-between"><span>Max Position</span><span class="font-mono">15 Contracts</span></div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Payouts -->
       <section id="payouts" class="py-16 border-t border-white/5 bg-white/[0.01]">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="glass rounded-3xl p-8 sm:p-12 text-center">
@@ -462,17 +326,14 @@
             </div>
             <h2 class="text-3xl font-semibold tracking-tight text-white mb-4">Pass. Progress. Get Paid.</h2>
             <p class="text-slate-300 max-w-2xl mx-auto mb-8 leading-relaxed">
-              Eligible funded traders may request payouts after meeting performance, rule-compliance, and verification standards within Lobos Futures.
+              Eligible funded traders may request payouts after meeting performance, rule, and verification standards.
             </p>
-            <a href="#"
-               onclick="alert('Connect payout request form here'); return false;"
-               class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium text-black bg-lobos-accent rounded-xl shadow-glow hover:scale-[1.02] transition">
+            <a href="#" onclick="alert('Connect payout request form here'); return false;" class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium text-black bg-lobos-accent rounded-xl shadow-glow hover:scale-[1.02] transition">
               Request Payout Info
             </a>
           </div>
         </div>
       </section>
-
     </div>
 
     <!-- PORTAL VIEW -->
@@ -487,7 +348,7 @@
             <p class="text-slate-400">Your challenge environment. Your progression. Your path through Lobos.</p>
           </div>
 
-          <!-- account overview -->
+          <!-- Account overview -->
           <div class="glass rounded-2xl p-6 md:p-8 relative overflow-hidden mb-8">
             <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-lobos-accent/60 to-transparent"></div>
 
@@ -522,10 +383,24 @@
             </div>
           </div>
 
-          <!-- stats -->
-          <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+          <!-- Reference market row -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div class="glass rounded-xl p-5">
-              <p class="text-xs text-slate-500 mb-3 uppercase tracking-[0.18em]">Current Progress</p>
+              <p class="text-xs text-slate-500 uppercase tracking-[0.18em] mb-2">Reference Market</p>
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <p id="selected-symbol-name" class="text-lg font-semibold text-white">US100</p>
+                  <p class="text-xs text-slate-500">Widget-compatible live reference</p>
+                </div>
+                <div class="text-right">
+                  <p id="sim-price" class="text-2xl font-mono text-lobos-accent">$18,342.50</p>
+                  <p id="sim-price-label" class="text-xs text-slate-500">Reference price</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass rounded-xl p-5">
+              <p class="text-xs text-slate-500 uppercase tracking-[0.18em] mb-3">Current Progress</p>
               <p class="text-xl font-semibold text-white">$2,450.00</p>
               <div class="w-full bg-black/30 h-1.5 rounded-full mt-3 overflow-hidden">
                 <div class="bg-lobos-accent h-full rounded-full" style="width: 40%"></div>
@@ -533,29 +408,13 @@
             </div>
 
             <div class="glass rounded-xl p-5">
-              <p class="text-xs text-slate-500 mb-3 uppercase tracking-[0.18em]">Remaining to Target</p>
-              <p class="text-xl font-semibold text-white">$3,550.00</p>
-            </div>
-
-            <div class="glass rounded-xl p-5">
-              <p class="text-xs text-slate-500 mb-3 uppercase tracking-[0.18em]">Risk Remaining</p>
+              <p class="text-xs text-slate-500 uppercase tracking-[0.18em] mb-3">Risk Remaining</p>
               <p class="text-xl font-semibold text-white">$3,000.00</p>
-            </div>
-
-            <div class="glass rounded-xl p-5">
-              <p class="text-xs text-slate-500 mb-3 uppercase tracking-[0.18em]">Trading Days</p>
-              <p class="text-xl font-semibold text-white">4 <span class="text-sm text-slate-500 font-normal">/ 15</span></p>
-            </div>
-
-            <div class="glass rounded-xl p-5">
-              <p class="text-xs text-slate-500 mb-3 uppercase tracking-[0.18em]">Winning Days</p>
-              <p class="text-xl font-semibold text-white">3</p>
             </div>
           </div>
 
-          <!-- challenge terminal -->
+          <!-- Terminal -->
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <!-- order panel -->
             <div class="lg:col-span-4 space-y-6">
               <div class="glass rounded-2xl p-6">
                 <h3 class="text-sm font-medium text-white mb-4 flex items-center gap-2">
@@ -593,35 +452,35 @@
 
                 <div class="space-y-4">
                   <div>
-                    <label class="block text-xs text-slate-400 mb-1">Symbol</label>
+                    <label class="block text-xs text-slate-400 mb-1">Market</label>
                     <select id="sim-asset" class="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-lobos-accent">
-                      <option value="ES">ES</option>
-                      <option value="NQ">NQ</option>
-                      <option value="YM">YM</option>
-                      <option value="RTY">RTY</option>
-                      <option value="CL">CL</option>
-                      <option value="GC">GC</option>
+                      <option value="US100">US100</option>
+                      <option value="US500">US500</option>
+                      <option value="US30">US30</option>
+                      <option value="USOIL">USOIL</option>
+                      <option value="GOLD">GOLD</option>
+                      <option value="BTCUSD">BTCUSD</option>
                     </select>
                   </div>
 
                   <div class="flex justify-between items-center bg-black/30 border border-white/5 rounded-lg p-3">
-                    <span class="text-xs text-slate-400">Current Price</span>
-                    <span class="font-mono text-lg text-lobos-accent" id="sim-price">$---.--</span>
+                    <span class="text-xs text-slate-400">Reference Price</span>
+                    <span id="order-price" class="font-mono text-lg text-lobos-accent">$---.--</span>
                   </div>
 
                   <div>
-                    <label class="block text-xs text-slate-400 mb-1">Contracts</label>
+                    <label class="block text-xs text-slate-400 mb-1">Contracts / Units</label>
                     <div class="flex items-center gap-2">
                       <button class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 text-white"
-                              onclick="document.getElementById('sim-qty').value=Math.max(1,parseInt(document.getElementById('sim-qty').value||1)-1); updateSimUI();">-</button>
+                        onclick="document.getElementById('sim-qty').value=Math.max(1,parseInt(document.getElementById('sim-qty').value||1)-1); updateSimUI();">-</button>
                       <input type="number" id="sim-qty" value="1" min="1" class="flex-1 h-10 rounded-lg bg-black/30 border border-white/10 text-white text-center font-mono outline-none focus:border-lobos-accent">
                       <button class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 text-white"
-                              onclick="document.getElementById('sim-qty').value=parseInt(document.getElementById('sim-qty').value||1)+1; updateSimUI();">+</button>
+                        onclick="document.getElementById('sim-qty').value=parseInt(document.getElementById('sim-qty').value||1)+1; updateSimUI();">+</button>
                     </div>
                   </div>
 
                   <div class="flex justify-between items-center text-sm">
-                    <span class="text-slate-500">Estimated Cost</span>
+                    <span class="text-slate-500">Estimated Exposure</span>
                     <span class="font-mono text-white" id="sim-total">$---.--</span>
                   </div>
 
@@ -633,18 +492,32 @@
                       Sell (Short)
                     </button>
                   </div>
+
+                  <p class="text-[11px] text-slate-500 leading-relaxed">
+                    Prices here are reference-market values used inside the Lobos simulated environment.
+                  </p>
                 </div>
               </div>
             </div>
 
-            <!-- chart + positions -->
             <div class="lg:col-span-8 space-y-6">
+              <!-- live market widget -->
+              <div class="glass rounded-2xl p-4">
+                <div class="mb-3 flex items-center justify-between">
+                  <h3 class="text-sm font-medium text-white">Live Market Reference</h3>
+                  <span class="text-xs text-slate-500">Syncs to selected market</span>
+                </div>
+                <div id="symbol-overview-shell" class="tv-widget-shell rounded-xl overflow-hidden border border-white/5 min-h-[220px]"></div>
+              </div>
+
+              <!-- chart -->
               <div class="glass rounded-2xl p-1 overflow-hidden h-[420px]">
                 <div class="tradingview-widget-container h-full">
                   <div id="portal_chart" class="h-full"></div>
                 </div>
               </div>
 
+              <!-- positions -->
               <div class="glass rounded-2xl overflow-hidden">
                 <div class="px-6 py-4 border-b border-white/5 bg-white/[0.02]">
                   <h3 class="text-sm font-medium text-white">Open Positions</h3>
@@ -669,6 +542,7 @@
                 </div>
               </div>
 
+              <!-- history -->
               <div class="glass rounded-2xl overflow-hidden">
                 <div class="px-6 py-4 border-b border-white/5 bg-white/[0.02]">
                   <h3 class="text-sm font-medium text-white">Trade History</h3>
@@ -694,7 +568,6 @@
             </div>
           </div>
 
-          <!-- progression -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
             <div class="glass rounded-2xl p-6">
               <h3 class="text-lg font-medium text-white mb-4">Progression & Payout Status</h3>
@@ -741,9 +614,7 @@
                 <a href="mailto:support@lobosfutures.com" class="px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-center hover:bg-white/10 transition">
                   Contact Support
                 </a>
-                <a href="#"
-                   onclick="alert('Connect payout form here'); return false;"
-                   class="px-4 py-3 rounded-lg bg-lobos-accent text-black font-medium text-center hover:scale-[1.01] transition">
+                <a href="#" onclick="alert('Connect payout form here'); return false;" class="px-4 py-3 rounded-lg bg-lobos-accent text-black font-medium text-center hover:scale-[1.01] transition">
                   Request Payout
                 </a>
               </div>
@@ -753,7 +624,6 @@
         </div>
       </section>
     </div>
-
   </main>
 
   <footer class="border-t border-white/10 bg-black/60 pt-10 pb-8 mt-10">
@@ -797,15 +667,60 @@
       }, 80);
     }
 
-    // Mobile menu
     document.getElementById('mobileMenuBtn').addEventListener('click', () => {
       document.getElementById('mobileMenu').classList.toggle('hidden');
     });
 
-    // TradingView main chart
+    // -------- Symbol map --------
+    const marketMap = {
+      US100: {
+        tvSymbol: "TVC:NDQ",
+        widgetSymbol: "TVC:NDQ",
+        label: "US100",
+        price: 18342.50,
+        volatility: 22
+      },
+      US500: {
+        tvSymbol: "TVC:SPX",
+        widgetSymbol: "TVC:SPX",
+        label: "US500",
+        price: 5221.25,
+        volatility: 8
+      },
+      US30: {
+        tvSymbol: "TVC:DJI",
+        widgetSymbol: "TVC:DJI",
+        label: "US30",
+        price: 39210.00,
+        volatility: 18
+      },
+      USOIL: {
+        tvSymbol: "TVC:USOIL",
+        widgetSymbol: "TVC:USOIL",
+        label: "USOIL",
+        price: 81.42,
+        volatility: 0.45
+      },
+      GOLD: {
+        tvSymbol: "TVC:GOLD",
+        widgetSymbol: "TVC:GOLD",
+        label: "GOLD",
+        price: 2389.10,
+        volatility: 2.2
+      },
+      BTCUSD: {
+        tvSymbol: "BITSTAMP:BTCUSD",
+        widgetSymbol: "BITSTAMP:BTCUSD",
+        label: "BTCUSD",
+        price: 64200.50,
+        volatility: 70
+      }
+    };
+
+    // -------- TradingView charts --------
     new TradingView.widget({
       autosize: true,
-      symbol: "CME_MINI:NQ1!",
+      symbol: "TVC:NDQ",
       interval: "5",
       timezone: "America/New_York",
       theme: "dark",
@@ -820,24 +735,76 @@
       container_id: "tradingview_chart"
     });
 
-    // TradingView portal chart
-    new TradingView.widget({
-      autosize: true,
-      symbol: "CME_MINI:ES1!",
-      interval: "5",
-      timezone: "America/New_York",
-      theme: "dark",
-      style: "1",
-      locale: "en",
-      toolbar_bg: "#05070b",
-      enable_publishing: false,
-      backgroundColor: "rgba(5,7,11,1)",
-      hide_side_toolbar: false,
-      allow_symbol_change: true,
-      container_id: "portal_chart"
-    });
+    let portalChartWidget = null;
 
-    // Simulator state
+    function createPortalChart(symbol) {
+      document.getElementById('portal_chart').innerHTML = '';
+      portalChartWidget = new TradingView.widget({
+        autosize: true,
+        symbol: symbol,
+        interval: "5",
+        timezone: "America/New_York",
+        theme: "dark",
+        style: "1",
+        locale: "en",
+        toolbar_bg: "#05070b",
+        enable_publishing: false,
+        backgroundColor: "rgba(5,7,11,1)",
+        hide_side_toolbar: false,
+        allow_symbol_change: false,
+        container_id: "portal_chart"
+      });
+    }
+
+    function createSymbolOverview(symbol) {
+      const shell = document.getElementById('symbol-overview-shell');
+      shell.innerHTML = `
+        <div class="tradingview-widget-container" style="height:220px;width:100%">
+          <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+        </div>
+      `;
+
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.async = true;
+      script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js';
+      script.innerHTML = JSON.stringify({
+        symbols: [[symbol + "|1D"]],
+        chartOnly: false,
+        width: "100%",
+        height: "220",
+        locale: "en",
+        colorTheme: "dark",
+        autosize: true,
+        showVolume: false,
+        showMA: false,
+        hideDateRanges: false,
+        hideMarketStatus: false,
+        hideSymbolLogo: false,
+        scalePosition: "right",
+        scaleMode: "Normal",
+        fontFamily: "Inter, sans-serif",
+        fontSize: "10",
+        noTimeScale: false,
+        valuesTracking: "1",
+        changeMode: "price-and-percent",
+        chartType: "area",
+        maLineColor: "#2962FF",
+        maLineWidth: 1,
+        maLength: 9,
+        lineWidth: 2,
+        lineType: 0,
+        dateRanges: ["1d|5", "1m|30", "3m|60", "12m|1D", "60m|1W", "all|1M"],
+        lineColor: "#00e5ff",
+        topColor: "rgba(0,229,255,0.22)",
+        bottomColor: "rgba(0,229,255,0.02)",
+        backgroundColor: "rgba(5,7,11,1)",
+        gridLineColor: "rgba(255,255,255,0.04)"
+      });
+      shell.querySelector('.tradingview-widget-container').appendChild(script);
+    }
+
+    // -------- Simulator state --------
     let simState = {
       balance: 100000.00,
       equity: 100000.00,
@@ -846,16 +813,17 @@
     };
 
     const mockPrices = {
-      ES: 5221.25,
-      NQ: 18342.50,
-      YM: 39210.00,
-      RTY: 2086.80,
-      CL: 81.42,
-      GC: 2389.10
+      US100: marketMap.US100.price,
+      US500: marketMap.US500.price,
+      US30: marketMap.US30.price,
+      USOIL: marketMap.USOIL.price,
+      GOLD: marketMap.GOLD.price,
+      BTCUSD: marketMap.BTCUSD.price
     };
 
     const elAsset = document.getElementById('sim-asset');
     const elPrice = document.getElementById('sim-price');
+    const elOrderPrice = document.getElementById('order-price');
     const elQty = document.getElementById('sim-qty');
     const elTotal = document.getElementById('sim-total');
     const elBalance = document.getElementById('sim-balance');
@@ -863,6 +831,16 @@
     const elBp = document.getElementById('sim-bp');
     const elPosBody = document.getElementById('sim-positions-body');
     const elHistBody = document.getElementById('sim-history-body');
+    const elSelectedName = document.getElementById('selected-symbol-name');
+
+    function syncPortalMarket() {
+      const asset = elAsset.value;
+      const map = marketMap[asset];
+      elSelectedName.innerText = map.label;
+      createPortalChart(map.tvSymbol);
+      createSymbolOverview(map.widgetSymbol);
+      updateSimUI();
+    }
 
     function updateSimUI() {
       const asset = elAsset.value;
@@ -870,8 +848,9 @@
       const qty = parseInt(elQty.value) || 0;
       const cost = price * qty;
 
-      elPrice.innerText = `$${price.toFixed(2)}`;
-      elTotal.innerText = `$${cost.toFixed(2)}`;
+      elPrice.innerText = `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      elOrderPrice.innerText = `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      elTotal.innerText = `$${cost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
       let unrealizedPNL = 0;
       simState.positions.forEach(p => {
@@ -884,9 +863,9 @@
       simState.equity = simState.balance + unrealizedPNL;
       const returnPct = ((simState.equity - 100000) / 100000) * 100;
 
-      elBalance.innerText = `$${simState.equity.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-      elEquity.innerText = `$${simState.equity.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-      elBp.innerText = `$${simState.balance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      elBalance.innerText = `$${simState.equity.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      elEquity.innerText = `$${simState.equity.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      elBp.innerText = `$${simState.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
       const pctEl = document.getElementById('sim-pnl-pct');
       pctEl.innerText = `${returnPct >= 0 ? '+' : ''}${returnPct.toFixed(2)}%`;
@@ -965,7 +944,7 @@
       });
 
       simState.history.push({
-        time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'}),
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
         asset,
         action: `Open ${type}`,
         qty,
@@ -988,7 +967,7 @@
         simState.positions.splice(index, 1);
 
         simState.history.push({
-          time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'}),
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
           asset: p.asset,
           action: `Close ${p.type}`,
           qty: p.qty,
@@ -1002,12 +981,12 @@
 
     document.getElementById('btn-buy').addEventListener('click', () => executeTrade('long'));
     document.getElementById('btn-sell').addEventListener('click', () => executeTrade('short'));
-    elAsset.addEventListener('change', updateSimUI);
+    elAsset.addEventListener('change', syncPortalMarket);
     elQty.addEventListener('input', updateSimUI);
 
     setInterval(() => {
       Object.keys(mockPrices).forEach(asset => {
-        const volatility = asset === 'CL' ? 0.35 : asset === 'GC' ? 1.2 : 8;
+        const volatility = marketMap[asset].volatility;
         const step = (Math.random() - 0.5) * volatility;
         mockPrices[asset] = Math.max(0.01, mockPrices[asset] + step);
       });
@@ -1015,7 +994,7 @@
     }, 2500);
 
     document.getElementById('year').innerText = new Date().getFullYear();
-    updateSimUI();
+    syncPortalMarket();
   </script>
 </body>
 </html>

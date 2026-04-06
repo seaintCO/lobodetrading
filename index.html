@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LOBOS FUTURES | Futures Prop Firm</title>
+  <title>LOBOS FUTURES | Prop Firm Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,8 +95,9 @@
         0 0 28px rgba(245,197,66,0.10);
     }
 
-    .tv-widget-shell iframe {
-      border-radius: 14px;
+    #portal_chart iframe,
+    #tradingview_chart iframe {
+      border-radius: 14px !important;
     }
   </style>
 </head>
@@ -110,17 +111,17 @@
     <div class="absolute bottom-10 right-1/4 w-[520px] h-[520px] bg-blue-500/10 rounded-full blur-[160px]"></div>
   </div>
 
-  <!-- Top market tape -->
+  <!-- Top Ticker -->
   <div class="w-full h-10 bg-black/70 border-b border-white/10 overflow-hidden">
     <div class="tradingview-widget-container">
       <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
       {
         "symbols": [
-          {"proName": "TVC:US500", "title": "US500"},
-          {"proName": "TVC:US100", "title": "US100"},
-          {"proName": "TVC:DJI", "title": "US30"},
-          {"proName": "TVC:USOIL", "title": "USOIL"},
-          {"proName": "TVC:GOLD", "title": "GOLD"},
+          {"proName": "OANDA:SPX500USD", "title": "US500"},
+          {"proName": "OANDA:NAS100USD", "title": "US100"},
+          {"proName": "OANDA:US30USD", "title": "US30"},
+          {"proName": "OANDA:WTICOUSD", "title": "USOIL"},
+          {"proName": "OANDA:XAUUSD", "title": "GOLD"},
           {"proName": "BITSTAMP:BTCUSD", "title": "BTCUSD"}
         ],
         "showSymbolLogo": true,
@@ -177,6 +178,11 @@
         <a href="#" onclick="switchView('portal'); return false;" class="block text-slate-300 hover:text-white py-2">Portal</a>
         <a href="#" onclick="switchView('home'); setTimeout(()=>scrollToSection('rules'), 100); return false;" class="block text-slate-300 hover:text-white py-2">Rules</a>
         <a href="#" onclick="switchView('home'); setTimeout(()=>scrollToSection('payouts'), 100); return false;" class="block text-slate-300 hover:text-white py-2">Payouts</a>
+        <a href="#"
+           class="block mt-3 text-center px-4 py-3 rounded-lg bg-lobos-accent text-black font-medium"
+           onclick="alert('Connect this button to your Stripe link'); return false;">
+          Start Challenge
+        </a>
       </div>
     </div>
   </header>
@@ -188,7 +194,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 mb-8">
             <span class="w-2 h-2 rounded-full bg-lobos-accent animate-pulse"></span>
-            <span class="text-xs uppercase tracking-[0.25em] text-slate-300">Elite Futures Evaluation</span>
+            <span class="text-xs uppercase tracking-[0.25em] text-slate-300">Elite Prop Evaluation</span>
           </div>
 
           <h1 class="text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight text-white leading-[1.05] mb-6">
@@ -211,6 +217,7 @@
         </div>
       </section>
 
+      <!-- Challenge cards -->
       <section id="challenges" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-12">
@@ -285,6 +292,21 @@
         </div>
       </section>
 
+      <!-- Main chart -->
+      <section class="py-12 border-t border-white/5 bg-white/[0.01]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center gap-3 mb-6">
+            <iconify-icon icon="solar:graph-up-linear" class="text-2xl text-lobos-accent"></iconify-icon>
+            <h2 class="text-2xl font-semibold tracking-tight text-white">Market View</h2>
+          </div>
+
+          <div class="glass rounded-2xl p-2 overflow-hidden">
+            <div id="tradingview_chart" class="w-full h-[520px] rounded-xl overflow-hidden"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rules -->
       <section id="rules" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="mb-10">
@@ -318,6 +340,7 @@
         </div>
       </section>
 
+      <!-- Payout CTA -->
       <section id="payouts" class="py-16 border-t border-white/5 bg-white/[0.01]">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="glass rounded-3xl p-8 sm:p-12 text-center">
@@ -348,7 +371,7 @@
             <p class="text-slate-400">Your challenge environment. Your progression. Your path through Lobos.</p>
           </div>
 
-          <!-- Account overview -->
+          <!-- Account Overview -->
           <div class="glass rounded-2xl p-6 md:p-8 relative overflow-hidden mb-8">
             <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-lobos-accent/60 to-transparent"></div>
 
@@ -383,18 +406,18 @@
             </div>
           </div>
 
-          <!-- Reference market row -->
+          <!-- Top row -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div class="glass rounded-xl p-5">
               <p class="text-xs text-slate-500 uppercase tracking-[0.18em] mb-2">Reference Market</p>
               <div class="flex items-center justify-between gap-3">
                 <div>
-                  <p id="selected-symbol-name" class="text-lg font-semibold text-white">US100</p>
-                  <p class="text-xs text-slate-500">Widget-compatible live reference</p>
+                  <p id="selected-symbol-name" class="text-lg font-semibold text-white">US500</p>
+                  <p class="text-xs text-slate-500">Widget-friendly market reference</p>
                 </div>
                 <div class="text-right">
-                  <p id="sim-price" class="text-2xl font-mono text-lobos-accent">$18,342.50</p>
-                  <p id="sim-price-label" class="text-xs text-slate-500">Reference price</p>
+                  <p id="sim-price" class="text-2xl font-mono text-lobos-accent">$5,250.26</p>
+                  <p class="text-xs text-slate-500">Reference price</p>
                 </div>
               </div>
             </div>
@@ -415,6 +438,7 @@
 
           <!-- Terminal -->
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Left -->
             <div class="lg:col-span-4 space-y-6">
               <div class="glass rounded-2xl p-6">
                 <h3 class="text-sm font-medium text-white mb-4 flex items-center gap-2">
@@ -454,8 +478,8 @@
                   <div>
                     <label class="block text-xs text-slate-400 mb-1">Market</label>
                     <select id="sim-asset" class="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-lobos-accent">
-                      <option value="US100">US100</option>
                       <option value="US500">US500</option>
+                      <option value="US100">US100</option>
                       <option value="US30">US30</option>
                       <option value="USOIL">USOIL</option>
                       <option value="GOLD">GOLD</option>
@@ -500,24 +524,31 @@
               </div>
             </div>
 
+            <!-- Right -->
             <div class="lg:col-span-8 space-y-6">
-              <!-- live market widget -->
-              <div class="glass rounded-2xl p-4">
-                <div class="mb-3 flex items-center justify-between">
-                  <h3 class="text-sm font-medium text-white">Live Market Reference</h3>
-                  <span class="text-xs text-slate-500">Syncs to selected market</span>
+              <div class="glass rounded-2xl p-5">
+                <div class="flex items-center justify-between gap-4 mb-4">
+                  <div>
+                    <p class="text-xs text-slate-500 uppercase tracking-[0.18em] mb-1">Selected Market</p>
+                    <h3 id="selected-symbol-name-2" class="text-xl font-semibold text-white">US500</h3>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-xs text-slate-500 uppercase tracking-[0.18em] mb-1">Reference Price</p>
+                    <p id="portal-reference-price" class="text-2xl font-mono text-lobos-accent">$5,250.26</p>
+                  </div>
                 </div>
-                <div id="symbol-overview-shell" class="tv-widget-shell rounded-xl overflow-hidden border border-white/5 min-h-[220px]"></div>
+                <div class="w-full bg-black/30 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-lobos-accent h-full rounded-full w-1/2"></div>
+                </div>
+                <p class="text-[11px] text-slate-500 mt-3">
+                  This is your Lobos reference market feed for the selected instrument.
+                </p>
               </div>
 
-              <!-- chart -->
-              <div class="glass rounded-2xl p-1 overflow-hidden h-[420px]">
-                <div class="tradingview-widget-container h-full">
-                  <div id="portal_chart" class="h-full"></div>
-                </div>
+              <div class="glass rounded-2xl p-2 overflow-hidden">
+                <div id="portal_chart" class="w-full h-[480px] rounded-xl overflow-hidden"></div>
               </div>
 
-              <!-- positions -->
               <div class="glass rounded-2xl overflow-hidden">
                 <div class="px-6 py-4 border-b border-white/5 bg-white/[0.02]">
                   <h3 class="text-sm font-medium text-white">Open Positions</h3>
@@ -542,7 +573,6 @@
                 </div>
               </div>
 
-              <!-- history -->
               <div class="glass rounded-2xl overflow-hidden">
                 <div class="px-6 py-4 border-b border-white/5 bg-white/[0.02]">
                   <h3 class="text-sm font-medium text-white">Trade History</h3>
@@ -568,6 +598,7 @@
             </div>
           </div>
 
+          <!-- Bottom cards -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
             <div class="glass rounded-2xl p-6">
               <h3 class="text-lg font-medium text-white mb-4">Progression & Payout Status</h3>
@@ -653,6 +684,10 @@
       } else if (viewName === 'portal') {
         homeView.classList.add('hidden');
         portalView.classList.remove('hidden');
+
+        setTimeout(() => {
+          syncPortalMarket();
+        }, 180);
       }
 
       document.getElementById('mobileMenu').classList.add('hidden');
@@ -671,56 +706,10 @@
       document.getElementById('mobileMenu').classList.toggle('hidden');
     });
 
-    // -------- Symbol map --------
-    const marketMap = {
-      US100: {
-        tvSymbol: "TVC:NDQ",
-        widgetSymbol: "TVC:NDQ",
-        label: "US100",
-        price: 18342.50,
-        volatility: 22
-      },
-      US500: {
-        tvSymbol: "TVC:SPX",
-        widgetSymbol: "TVC:SPX",
-        label: "US500",
-        price: 5221.25,
-        volatility: 8
-      },
-      US30: {
-        tvSymbol: "TVC:DJI",
-        widgetSymbol: "TVC:DJI",
-        label: "US30",
-        price: 39210.00,
-        volatility: 18
-      },
-      USOIL: {
-        tvSymbol: "TVC:USOIL",
-        widgetSymbol: "TVC:USOIL",
-        label: "USOIL",
-        price: 81.42,
-        volatility: 0.45
-      },
-      GOLD: {
-        tvSymbol: "TVC:GOLD",
-        widgetSymbol: "TVC:GOLD",
-        label: "GOLD",
-        price: 2389.10,
-        volatility: 2.2
-      },
-      BTCUSD: {
-        tvSymbol: "BITSTAMP:BTCUSD",
-        widgetSymbol: "BITSTAMP:BTCUSD",
-        label: "BTCUSD",
-        price: 64200.50,
-        volatility: 70
-      }
-    };
-
-    // -------- TradingView charts --------
+    // Main home chart
     new TradingView.widget({
       autosize: true,
-      symbol: "TVC:NDQ",
+      symbol: "OANDA:NAS100USD",
       interval: "5",
       timezone: "America/New_York",
       theme: "dark",
@@ -735,10 +724,53 @@
       container_id: "tradingview_chart"
     });
 
+    const marketMap = {
+      US500: {
+        tvSymbol: "OANDA:SPX500USD",
+        label: "US500",
+        price: 5250.26,
+        volatility: 8
+      },
+      US100: {
+        tvSymbol: "OANDA:NAS100USD",
+        label: "US100",
+        price: 18342.50,
+        volatility: 22
+      },
+      US30: {
+        tvSymbol: "OANDA:US30USD",
+        label: "US30",
+        price: 39210.00,
+        volatility: 18
+      },
+      USOIL: {
+        tvSymbol: "OANDA:WTICOUSD",
+        label: "USOIL",
+        price: 81.42,
+        volatility: 0.45
+      },
+      GOLD: {
+        tvSymbol: "OANDA:XAUUSD",
+        label: "GOLD",
+        price: 2389.10,
+        volatility: 2.2
+      },
+      BTCUSD: {
+        tvSymbol: "BITSTAMP:BTCUSD",
+        label: "BTCUSD",
+        price: 64200.50,
+        volatility: 70
+      }
+    };
+
     let portalChartWidget = null;
 
     function createPortalChart(symbol) {
-      document.getElementById('portal_chart').innerHTML = '';
+      const container = document.getElementById('portal_chart');
+      if (!container) return;
+
+      container.innerHTML = '';
+
       portalChartWidget = new TradingView.widget({
         autosize: true,
         symbol: symbol,
@@ -752,59 +784,11 @@
         backgroundColor: "rgba(5,7,11,1)",
         hide_side_toolbar: false,
         allow_symbol_change: false,
+        withdateranges: true,
         container_id: "portal_chart"
       });
     }
 
-    function createSymbolOverview(symbol) {
-      const shell = document.getElementById('symbol-overview-shell');
-      shell.innerHTML = `
-        <div class="tradingview-widget-container" style="height:220px;width:100%">
-          <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
-        </div>
-      `;
-
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.async = true;
-      script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js';
-      script.innerHTML = JSON.stringify({
-        symbols: [[symbol + "|1D"]],
-        chartOnly: false,
-        width: "100%",
-        height: "220",
-        locale: "en",
-        colorTheme: "dark",
-        autosize: true,
-        showVolume: false,
-        showMA: false,
-        hideDateRanges: false,
-        hideMarketStatus: false,
-        hideSymbolLogo: false,
-        scalePosition: "right",
-        scaleMode: "Normal",
-        fontFamily: "Inter, sans-serif",
-        fontSize: "10",
-        noTimeScale: false,
-        valuesTracking: "1",
-        changeMode: "price-and-percent",
-        chartType: "area",
-        maLineColor: "#2962FF",
-        maLineWidth: 1,
-        maLength: 9,
-        lineWidth: 2,
-        lineType: 0,
-        dateRanges: ["1d|5", "1m|30", "3m|60", "12m|1D", "60m|1W", "all|1M"],
-        lineColor: "#00e5ff",
-        topColor: "rgba(0,229,255,0.22)",
-        bottomColor: "rgba(0,229,255,0.02)",
-        backgroundColor: "rgba(5,7,11,1)",
-        gridLineColor: "rgba(255,255,255,0.04)"
-      });
-      shell.querySelector('.tradingview-widget-container').appendChild(script);
-    }
-
-    // -------- Simulator state --------
     let simState = {
       balance: 100000.00,
       equity: 100000.00,
@@ -813,8 +797,8 @@
     };
 
     const mockPrices = {
-      US100: marketMap.US100.price,
       US500: marketMap.US500.price,
+      US100: marketMap.US100.price,
       US30: marketMap.US30.price,
       USOIL: marketMap.USOIL.price,
       GOLD: marketMap.GOLD.price,
@@ -836,10 +820,19 @@
     function syncPortalMarket() {
       const asset = elAsset.value;
       const map = marketMap[asset];
-      elSelectedName.innerText = map.label;
-      createPortalChart(map.tvSymbol);
-      createSymbolOverview(map.widgetSymbol);
+
+      document.getElementById('selected-symbol-name').innerText = map.label;
+      document.getElementById('selected-symbol-name-2').innerText = map.label;
+      document.getElementById('portal-reference-price').innerText =
+        `$${mockPrices[asset].toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
       updateSimUI();
+
+      if (!document.getElementById('view-portal').classList.contains('hidden')) {
+        setTimeout(() => {
+          createPortalChart(map.tvSymbol);
+        }, 120);
+      }
     }
 
     function updateSimUI() {
@@ -850,6 +843,9 @@
 
       elPrice.innerText = `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
       elOrderPrice.innerText = `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      document.getElementById('portal-reference-price').innerText =
+        `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
       elTotal.innerText = `$${cost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
       let unrealizedPNL = 0;
@@ -994,7 +990,7 @@
     }, 2500);
 
     document.getElementById('year').innerText = new Date().getFullYear();
-    syncPortalMarket();
+    updateSimUI();
   </script>
 </body>
 </html>
